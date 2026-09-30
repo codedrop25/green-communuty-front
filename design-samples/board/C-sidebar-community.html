@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>시안 C · 사이드바 커뮤니티형</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style type="text/tailwindcss">
+  @theme { --font-sans: "Pretendard Variable", Pretendard, system-ui, sans-serif; }
+</style>
+<script src="_data.js"></script>
+</head>
+<body class="bg-slate-100 font-sans text-slate-900 antialiased">
+
+<header class="sticky top-0 z-20 bg-green-900 text-white">
+  <div class="mx-auto flex h-14 max-w-7xl items-center gap-4 px-4">
+    <a onclick="show('list')" class="flex cursor-pointer items-center gap-2 font-bold"><span class="grid size-7 place-items-center rounded-full bg-lime-400 text-sm font-black text-green-900">g</span>GreenCommunity</a>
+    <div class="relative mx-auto hidden w-full max-w-xl md:block">
+      <input class="w-full rounded-md bg-white/10 px-4 py-2 text-sm text-white outline-none placeholder:text-white/50 focus:bg-white focus:text-slate-900" placeholder="🔍 게시판 내 검색" />
+    </div>
+    <div class="ml-auto flex items-center gap-3 text-sm">
+      <button class="relative">🔔<span class="absolute -right-1 -top-1 size-2 rounded-full bg-lime-400"></span></button>
+      <button onclick="show('write')" class="rounded-md bg-lime-400 px-3 py-1.5 font-semibold text-green-950 hover:bg-lime-300">+ 새 글</button>
+    </div>
+  </div>
+</header>
+
+<div class="mx-auto grid max-w-7xl gap-6 px-4 py-6 lg:grid-cols-[220px_1fr_300px]">
+
+  <!-- Left nav -->
+  <aside class="hidden lg:block">
+    <nav class="sticky top-20 space-y-6 text-sm">
+      <div>
+        <p class="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-slate-400">피드</p>
+        <a class="flex items-center gap-2 rounded-md bg-white px-3 py-2 font-semibold text-green-800 shadow-sm">🏠 홈</a>
+        <a class="flex items-center gap-2 rounded-md px-3 py-2 text-slate-600 hover:bg-white">🔥 인기글</a>
+        <a class="flex items-center gap-2 rounded-md px-3 py-2 text-slate-600 hover:bg-white">🔖 북마크</a>
+      </div>
+      <div>
+        <p class="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-slate-400">게시판</p>
+        <div id="boards"></div>
+      </div>
+    </nav>
+  </aside>
+
+  <main class="min-w-0">
+    <!-- ================= LIST ================= -->
+    <section id="view-list">
+      <div class="mb-4 flex items-center gap-2 rounded-lg bg-white p-3 shadow-sm">
+        <span class="grid size-9 place-items-center rounded-full bg-green-100 text-sm font-bold text-green-800">나</span>
+        <button onclick="show('write')" class="flex-1 rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-left text-sm text-slate-400 hover:border-green-600">무슨 이야기를 나누고 싶나요?</button>
+      </div>
+
+      <div class="mb-3 flex items-center gap-1 text-sm">
+        <button class="rounded-full bg-white px-3 py-1.5 font-semibold text-green-800 shadow-sm">✨ 최신</button>
+        <button class="rounded-full px-3 py-1.5 text-slate-500 hover:bg-white">🔥 인기</button>
+        <button class="rounded-full px-3 py-1.5 text-slate-500 hover:bg-white">📈 주간 TOP</button>
+        <button class="rounded-full px-3 py-1.5 text-slate-500 hover:bg-white">💬 답변 대기</button>
+      </div>
+
+      <div class="overflow-hidden rounded-lg bg-white shadow-sm">
+        <div class="flex items-center gap-2 border-b border-amber-100 bg-amber-50 px-4 py-2.5 text-sm">📌 <b class="text-amber-800">공지</b><span class="truncate text-amber-900">[필독] 그린 커뮤니티 이용 규칙 안내 (2026.09 개정)</span></div>
+        <ul id="rows" class="divide-y divide-slate-100"></ul>
+      </div>
+
+      <div class="mt-4 flex justify-center"><button class="rounded-md bg-white px-5 py-2 text-sm font-medium text-slate-600 shadow-sm hover:text-slate-900">이전 글 더 불러오기</button></div>
+    </section>
+
+    <!-- ================= DETAIL ================= -->
+    <section id="view-detail" class="hidden">
+      <article class="flex gap-3 rounded-lg bg-white p-4 shadow-sm sm:p-6">
+        <div class="flex flex-col items-center gap-1 text-slate-400">
+          <button class="rounded p-1 hover:bg-green-50 hover:text-green-700">▲</button><b class="text-sm text-green-700">42</b><button class="rounded p-1 hover:bg-slate-100">▼</button>
+        </div>
+        <div class="min-w-0 flex-1">
+          <p class="text-xs text-slate-500"><b class="text-slate-800">g/정보공유</b> · <span class="font-medium">초록손</span> · 10분 전</p>
+          <h1 class="mt-2 text-xl font-bold leading-snug">베란다 텃밭 6개월 차, 방울토마토 수확량 정리해봤어요</h1>
+          <div class="mt-4 space-y-4 leading-7 text-slate-700">
+            <p>처음엔 화분 두 개로 시작했는데 지금은 선반 3단까지 늘었습니다. 월별 수확량과 비료 주기를 정리해봤어요.</p>
+            <div class="grid aspect-[16/9] place-items-center rounded-lg bg-gradient-to-br from-green-200 to-lime-200 text-sm text-green-900">첨부 이미지</div>
+            <p>가장 효과가 컸던 건 순 따기와 지지대 보강이었고, 8월 폭염 때는 차광막이 필수였습니다.</p>
+          </div>
+          <div class="mt-5 flex flex-wrap gap-1 text-xs font-semibold text-slate-500">
+            <button class="rounded-md px-2 py-1.5 hover:bg-slate-100">💬 댓글 18</button><button class="rounded-md px-2 py-1.5 hover:bg-slate-100">↗ 공유</button>
+            <button class="rounded-md px-2 py-1.5 hover:bg-slate-100">🔖 저장</button><button class="rounded-md px-2 py-1.5 hover:bg-slate-100">🚩 신고</button>
+          </div>
+        </div>
+      </article>
+      <section class="mt-3 rounded-lg bg-white p-4 shadow-sm sm:p-6">
+        <textarea rows="3" class="w-full resize-none rounded-md border border-slate-200 p-3 text-sm outline-none focus:border-green-600" placeholder="댓글로 의견을 남겨주세요"></textarea>
+        <div class="mt-2 flex justify-end"><button class="rounded-md bg-green-800 px-4 py-1.5 text-sm font-semibold text-white">댓글 등록</button></div>
+        <div class="mt-4 flex items-center gap-2 text-sm text-slate-500">정렬: <b class="text-slate-800">추천순 ▾</b></div>
+        <ul id="comments" class="mt-4 space-y-4"></ul>
+      </section>
+    </section>
+
+    <!-- ================= WRITE ================= -->
+    <section id="view-write" class="hidden">
+      <div class="rounded-lg bg-white shadow-sm">
+        <div class="flex border-b border-slate-200 text-sm font-semibold">
+          <button class="border-b-2 border-green-800 px-5 py-3 text-green-800">📝 작성</button>
+          <button class="px-5 py-3 text-slate-400">👁 미리보기</button>
+        </div>
+        <form class="space-y-4 p-5" onsubmit="return false">
+          <select class="w-full rounded-md border border-slate-200 px-3 py-2 text-sm sm:w-60"><option>게시판 선택 · g/자유게시판</option><option>g/질문답변</option><option>g/정보공유</option><option>g/후기</option></select>
+          <div class="relative"><input maxlength="100" class="w-full rounded-md border border-slate-200 px-3 py-2.5 outline-none focus:border-green-600" placeholder="제목" /><span class="absolute right-3 top-3 text-xs text-slate-400">0/100</span></div>
+          <textarea rows="12" class="w-full rounded-md border border-slate-200 p-3 font-mono text-sm leading-6 outline-none focus:border-green-600" placeholder="마크다운을 지원합니다."></textarea>
+          <div class="flex flex-wrap items-center gap-2 text-sm">
+            <button class="rounded-full border border-slate-200 px-3 py-1 text-slate-600">🏷 태그 추가</button>
+            <label class="flex items-center gap-1.5 text-slate-600"><input type="checkbox" class="accent-green-700" /> 스포일러/민감 내용</label>
+            <label class="flex items-center gap-1.5 text-slate-600"><input type="checkbox" class="accent-green-700" /> 답변 알림 받기</label>
+          </div>
+          <div class="flex justify-end gap-2 border-t border-slate-100 pt-4">
+            <button onclick="show('list')" class="rounded-full px-5 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-100">임시저장</button>
+            <button class="rounded-full bg-green-800 px-6 py-2 text-sm font-semibold text-white">게시</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Right sidebar -->
+  <aside class="hidden space-y-4 lg:block">
+    <div class="overflow-hidden rounded-lg bg-white shadow-sm">
+      <div class="h-12 bg-gradient-to-r from-green-800 to-lime-500"></div>
+      <div class="p-4">
+        <p class="font-bold">g/자유게시판</p>
+        <p class="mt-1 text-sm text-slate-500">초록빛 일상을 자유롭게 나누는 공간</p>
+        <div class="mt-3 flex gap-6 text-sm"><div><b>12.4k</b><p class="text-xs text-slate-400">멤버</p></div><div><b class="text-green-700">● 312</b><p class="text-xs text-slate-400">접속 중</p></div></div>
+        <button class="mt-4 w-full rounded-full bg-green-800 py-2 text-sm font-semibold text-white">가입하기</button>
+      </div>
+    </div>
+    <div class="rounded-lg bg-white p-4 shadow-sm">
+      <p class="mb-3 text-sm font-bold">🔥 실시간 인기글</p>
+      <ol id="popular" class="space-y-2.5 text-sm"></ol>
+    </div>
+    <div class="rounded-lg bg-white p-4 text-sm shadow-sm">
+      <p class="mb-2 font-bold">게시판 규칙</p>
+      <ol class="list-decimal space-y-1 pl-4 text-slate-600"><li>서로 존중해주세요</li><li>광고·홍보 금지</li><li>개인정보 노출 금지</li></ol>
+    </div>
+  </aside>
+</div>
+
+<script>
+const B = window.BOARD;
+function show(v){ ['list','detail','write'].forEach(n=>document.getElementById('view-'+n).classList.toggle('hidden', n!==v)); scrollTo(0,0); }
+const icons = {all:'🌿',free:'💬',qna:'❓',info:'📚',review:'⭐'};
+document.getElementById('boards').innerHTML = B.categories.map((c,i)=>`<a class="flex items-center gap-2 rounded-md px-3 py-2 ${i===1?'font-semibold text-slate-900':'text-slate-600'} hover:bg-white">${icons[c.id]} ${c.name}<span class="ml-auto text-xs text-slate-400">${c.count}</span></a>`).join('');
+document.getElementById('popular').innerHTML = B.popular.map((t,i)=>`<li class="flex gap-2"><b class="w-4 ${i<3?'text-green-700':'text-slate-400'}">${i+1}</b><a class="line-clamp-1 hover:underline">${t}</a></li>`).join('');
+document.getElementById('rows').innerHTML = B.posts.map(p=>`
+  <li onclick="show('detail')" class="flex cursor-pointer gap-3 px-3 py-3 hover:bg-slate-50 sm:px-4">
+    <div class="flex w-10 shrink-0 flex-col items-center text-xs text-slate-400"><span>▲</span><b class="text-sm ${p.likes>=100?'text-green-700':'text-slate-700'}">${p.likes}</b></div>
+    <div class="min-w-0 flex-1">
+      <p class="text-xs text-slate-500"><b class="text-slate-700">g/${catName(p.cat)}</b> · ${p.author} · ${p.date}</p>
+      <h3 class="mt-0.5 font-semibold leading-snug">${p.cat==='qna'?'<span class="mr-1 rounded bg-sky-100 px-1.5 py-0.5 text-[11px] font-bold text-sky-700">Q</span>':''}${p.title}</h3>
+      <p class="mt-1 line-clamp-1 text-sm text-slate-500">${p.excerpt}</p>
+      <p class="mt-1.5 flex gap-3 text-xs font-medium text-slate-400"><span>💬 ${p.comments}</span><span>👁 ${p.views.toLocaleString()}</span></p>
+    </div>
+    ${p.img?'<div class="hidden size-20 shrink-0 rounded-md bg-gradient-to-br from-green-200 to-lime-200 sm:block"></div>':''}
+  </li>`).join('');
+const cm = c => `<div class="flex gap-2"><span class="grid size-7 shrink-0 place-items-center rounded-full bg-green-100 text-xs font-bold text-green-800">${c.avatar}</span>
+  <div class="min-w-0 flex-1"><p class="text-xs"><b>${c.author}</b> <span class="text-slate-400">· ${c.date}</span></p><p class="mt-1 text-sm text-slate-700">${c.body}</p>
+  <div class="mt-1 flex gap-3 text-xs font-semibold text-slate-400"><span>▲ ${c.likes} ▼</span><button>답글</button><button>공유</button></div></div></div>`;
+document.getElementById('comments').innerHTML = B.comments.map(c=>`<li>${cm(c)}${c.replies.length?`<div class="ml-3 mt-3 space-y-3 border-l-2 border-slate-200 pl-5">${c.replies.map(cm).join('')}</div>`:''}</li>`).join('');
+</script>
+</body>
+</html>

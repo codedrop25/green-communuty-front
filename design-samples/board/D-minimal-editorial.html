@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>시안 D · 미니멀 에디토리얼형</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700&display=swap" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style type="text/tailwindcss">
+  @custom-variant dark (&:where(.dark, .dark *));
+  @theme {
+    --font-sans: "Pretendard Variable", Pretendard, system-ui, sans-serif;
+    --font-serif: "Noto Serif KR", serif;
+    --color-paper: #fbfaf6;
+    --color-ink: #1d2a22;
+    --color-leaf: #2f6b45;
+  }
+</style>
+<script src="_data.js"></script>
+</head>
+<body class="bg-paper font-sans text-ink antialiased transition-colors dark:bg-[#111613] dark:text-zinc-200">
+
+<header class="border-b border-ink/10 dark:border-white/10">
+  <div class="mx-auto flex h-16 max-w-5xl items-center px-5">
+    <a onclick="show('list')" class="cursor-pointer font-serif text-xl font-bold tracking-tight">Green<span class="text-leaf dark:text-emerald-400">.</span></a>
+    <nav class="ml-10 hidden gap-7 text-sm text-ink/60 sm:flex dark:text-zinc-400">
+      <a class="text-ink dark:text-white">Community</a><a>Meetup</a><a>Market</a>
+    </nav>
+    <div class="ml-auto flex items-center gap-4 text-sm">
+      <button onclick="document.documentElement.classList.toggle('dark')" class="text-ink/60 hover:text-ink dark:text-zinc-400" title="다크모드">◐</button>
+      <button class="text-ink/60 hover:text-ink dark:text-zinc-400">🔍</button>
+      <button onclick="show('write')" class="border-b border-ink pb-0.5 font-medium dark:border-zinc-200">Write</button>
+    </div>
+  </div>
+</header>
+
+<main class="mx-auto max-w-5xl px-5">
+
+  <!-- ================= LIST ================= -->
+  <section id="view-list" class="py-12">
+    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-leaf dark:text-emerald-400">Community Board</p>
+    <h1 class="mt-3 font-serif text-4xl font-bold leading-tight sm:text-5xl">이웃의 기록</h1>
+
+    <div id="cats" class="mt-8 flex gap-6 overflow-x-auto border-b border-ink/10 text-sm dark:border-white/10"></div>
+
+    <!-- Featured -->
+    <a onclick="show('detail')" class="group mt-10 grid cursor-pointer gap-8 md:grid-cols-[1.2fr_1fr]">
+      <div class="aspect-[4/3] bg-gradient-to-br from-[#cfdcc8] to-[#8fb198] dark:from-emerald-900 dark:to-emerald-700"></div>
+      <div class="flex flex-col justify-center">
+        <p class="text-xs font-semibold uppercase tracking-widest text-leaf dark:text-emerald-400">Editor's Pick · 후기</p>
+        <h2 class="mt-3 font-serif text-3xl font-bold leading-snug group-hover:underline group-hover:decoration-1 group-hover:underline-offset-4">제로웨이스트 샵 3곳 다녀온 솔직 후기</h2>
+        <p class="mt-4 leading-7 text-ink/60 dark:text-zinc-400">리필 스테이션 위주로 비교했습니다. 세제류는 두 번째 가게가 제일 저렴했고, 분위기는 첫 번째가 가장 좋았어요.</p>
+        <p class="mt-6 text-sm text-ink/50 dark:text-zinc-500">리필러 — 3시간 전 · 댓글 41</p>
+      </div>
+    </a>
+
+    <div class="mt-16 flex items-baseline justify-between border-b border-ink pb-3 dark:border-zinc-300">
+      <h3 class="font-serif text-lg font-bold">최신 글</h3>
+      <div class="flex gap-4 text-xs text-ink/50 dark:text-zinc-500"><button class="font-semibold text-ink dark:text-white">최신</button><button>인기</button><button>토론</button></div>
+    </div>
+    <ol id="rows"></ol>
+
+    <div class="mt-12 flex items-center justify-between text-sm">
+      <button class="text-ink/40 dark:text-zinc-600">← 이전</button>
+      <span class="font-serif">1 <span class="text-ink/30">/ 129</span></span>
+      <button class="font-medium">다음 →</button>
+    </div>
+  </section>
+
+  <!-- ================= DETAIL ================= -->
+  <section id="view-detail" class="hidden">
+    <div class="fixed inset-x-0 top-0 z-30 h-0.5 bg-ink/5"><div class="h-full w-1/3 bg-leaf dark:bg-emerald-400"></div></div>
+    <article class="mx-auto max-w-2xl py-16">
+      <button onclick="show('list')" class="text-sm text-ink/50 hover:text-ink dark:text-zinc-500">← 목록</button>
+      <p class="mt-10 text-xs font-semibold uppercase tracking-widest text-leaf dark:text-emerald-400">정보공유</p>
+      <h1 class="mt-4 font-serif text-3xl font-bold leading-snug sm:text-4xl">베란다 텃밭 6개월 차,<br/>방울토마토 수확량 정리해봤어요</h1>
+      <div class="mt-8 flex items-center gap-3 border-y border-ink/10 py-4 text-sm dark:border-white/10">
+        <span class="grid size-10 place-items-center rounded-full bg-leaf font-serif text-white">초</span>
+        <div><p class="font-semibold">초록손</p><p class="text-ink/50 dark:text-zinc-500">2026년 9월 30일 · 3분 읽기 · 조회 214</p></div>
+        <button class="ml-auto rounded-full border border-ink/20 px-4 py-1.5 text-xs dark:border-white/20">팔로우</button>
+      </div>
+      <div class="mt-10 space-y-6 font-serif text-[18px] leading-[1.9] text-ink/85 dark:text-zinc-300">
+        <p><span class="float-left mr-2 mt-1 font-serif text-6xl font-bold leading-none text-leaf dark:text-emerald-400">처</span>음엔 화분 두 개로 시작했는데 지금은 선반 3단까지 늘었습니다. 월별 수확량과 비료 주기를 표로 정리해봤어요.</p>
+        <figure><div class="aspect-[3/2] bg-gradient-to-br from-[#cfdcc8] to-[#8fb198] dark:from-emerald-900 dark:to-emerald-700"></div><figcaption class="mt-2 text-center font-sans text-xs text-ink/40">8월, 첫 수확</figcaption></figure>
+        <blockquote class="border-l-2 border-leaf pl-5 italic text-ink/70 dark:border-emerald-400 dark:text-zinc-400">가장 효과가 컸던 건 순 따기와 지지대 보강이었다.</blockquote>
+        <p>8월 폭염 때는 차광막이 필수였습니다. 궁금한 점은 댓글로 남겨주세요.</p>
+      </div>
+      <div class="mt-12 flex items-center gap-5 border-y border-ink/10 py-4 text-sm text-ink/60 dark:border-white/10 dark:text-zinc-400">
+        <button>♡ 42</button><button>✎ 18</button><button class="ml-auto">⤴ 공유</button><button>⌑ 저장</button>
+      </div>
+
+      <section class="mt-12">
+        <h2 class="font-serif text-xl font-bold">댓글 18</h2>
+        <div class="mt-5 border-b border-ink/20 pb-2 dark:border-white/20"><input class="w-full bg-transparent py-2 outline-none placeholder:text-ink/30" placeholder="생각을 남겨주세요…" /></div>
+        <ul id="comments" class="mt-8 space-y-8"></ul>
+      </section>
+    </article>
+  </section>
+
+  <!-- ================= WRITE ================= -->
+  <section id="view-write" class="mx-auto hidden max-w-2xl py-12">
+    <div class="flex items-center justify-between text-sm">
+      <button onclick="show('list')" class="text-ink/50 dark:text-zinc-500">← 나가기</button>
+      <div class="flex items-center gap-4"><span class="text-xs text-ink/40">임시저장됨</span><button class="rounded-full bg-ink px-5 py-2 font-medium text-paper dark:bg-zinc-100 dark:text-zinc-900">발행하기</button></div>
+    </div>
+    <select class="mt-12 bg-transparent text-xs font-semibold uppercase tracking-widest text-leaf outline-none dark:text-emerald-400"><option>카테고리 선택 ▾</option><option>자유게시판</option><option>질문답변</option><option>정보공유</option><option>후기</option></select>
+    <textarea rows="2" class="mt-4 w-full resize-none bg-transparent font-serif text-4xl font-bold leading-snug outline-none placeholder:text-ink/20 dark:placeholder:text-white/20" placeholder="제목을 입력하세요"></textarea>
+    <textarea rows="16" class="mt-6 w-full resize-none bg-transparent font-serif text-[18px] leading-[1.9] outline-none placeholder:text-ink/25 dark:placeholder:text-white/20" placeholder="당신의 이야기를 들려주세요…"></textarea>
+    <div class="sticky bottom-6 mx-auto flex w-fit gap-1 rounded-full border border-ink/10 bg-white/90 px-2 py-1.5 text-sm shadow-lg backdrop-blur dark:border-white/10 dark:bg-zinc-800/90">
+      <button class="rounded-full px-3 py-1 font-bold hover:bg-ink/5">B</button><button class="rounded-full px-3 py-1 italic hover:bg-ink/5">I</button>
+      <button class="rounded-full px-3 py-1 hover:bg-ink/5">H2</button><button class="rounded-full px-3 py-1 hover:bg-ink/5">❝</button><button class="rounded-full px-3 py-1 hover:bg-ink/5">🖼</button>
+    </div>
+  </section>
+</main>
+
+<footer class="mt-8 border-t border-ink/10 py-10 text-center text-xs text-ink/40 dark:border-white/10">© 2026 Green Community</footer>
+
+<script>
+const B = window.BOARD;
+function show(v){ ['list','detail','write'].forEach(n=>document.getElementById('view-'+n).classList.toggle('hidden', n!==v)); scrollTo(0,0); }
+document.getElementById('cats').innerHTML = B.categories.map((c,i)=>`<button class="-mb-px shrink-0 border-b py-3 ${i===0?'border-ink font-semibold dark:border-white':'border-transparent text-ink/50 hover:text-ink dark:text-zinc-500'}">${c.name}</button>`).join('');
+document.getElementById('rows').innerHTML = B.posts.filter(p=>p.id!==1284).map((p,i)=>`
+  <li onclick="show('detail')" class="group grid cursor-pointer grid-cols-[2.5rem_1fr] gap-4 border-b border-ink/10 py-6 sm:grid-cols-[3rem_1fr_auto] dark:border-white/10">
+    <span class="font-serif text-2xl text-ink/25 dark:text-white/20">${String(i+1).padStart(2,'0')}</span>
+    <div class="min-w-0">
+      <p class="text-[11px] font-semibold uppercase tracking-widest text-leaf dark:text-emerald-400">${catName(p.cat)}</p>
+      <h4 class="mt-1.5 font-serif text-lg font-bold leading-snug group-hover:underline group-hover:decoration-1 group-hover:underline-offset-4">${p.title}</h4>
+      <p class="mt-1.5 line-clamp-1 text-sm text-ink/55 dark:text-zinc-400">${p.excerpt}</p>
+      <p class="mt-2 text-xs text-ink/40 dark:text-zinc-500">${p.author} — ${p.date} · 댓글 ${p.comments} · ♡ ${p.likes}</p>
+    </div>
+    ${p.img?'<div class="hidden size-24 bg-gradient-to-br from-[#cfdcc8] to-[#8fb198] sm:block dark:from-emerald-900 dark:to-emerald-700"></div>':'<span class="hidden sm:block"></span>'}
+  </li>`).join('');
+const cm = c => `<div><p class="text-sm"><b>${c.author}</b> <span class="text-ink/40">· ${c.date}</span></p><p class="mt-2 leading-7 text-ink/80 dark:text-zinc-300">${c.body}</p><p class="mt-2 flex gap-4 text-xs text-ink/40"><button>♡ ${c.likes}</button><button>답글</button></p></div>`;
+document.getElementById('comments').innerHTML = B.comments.map(c=>`<li>${cm(c)}${c.replies.map(r=>`<div class="ml-6 mt-6 border-l border-ink/15 pl-6 dark:border-white/15">${cm(r)}</div>`).join('')}</li>`).join('');
+</script>
+</body>
+</html>

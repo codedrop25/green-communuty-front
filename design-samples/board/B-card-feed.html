@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>시안 B · 카드 피드형</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style type="text/tailwindcss">
+  @theme { --font-sans: "Pretendard Variable", Pretendard, system-ui, sans-serif; }
+</style>
+<script src="_data.js"></script>
+</head>
+<body class="bg-[#f6f8f5] font-sans text-zinc-900 antialiased">
+
+<header class="sticky top-0 z-20 border-b border-black/5 bg-white/80 backdrop-blur">
+  <div class="mx-auto flex h-16 max-w-6xl items-center gap-4 px-4">
+    <a onclick="show('list')" class="flex cursor-pointer items-center gap-2 font-extrabold tracking-tight text-emerald-700">
+      <svg class="size-7" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C7 6 4 10 4 14a8 8 0 0 0 16 0c0-4-3-8-8-12Zm0 18v-7"/></svg>green
+    </a>
+    <div class="relative mx-auto hidden w-full max-w-md sm:block">
+      <input class="w-full rounded-full bg-zinc-100 py-2.5 pl-10 pr-4 text-sm outline-none ring-emerald-500/30 focus:bg-white focus:ring-4" placeholder="관심 있는 이야기를 검색해보세요" />
+      <svg class="absolute left-3.5 top-2.5 size-5 text-zinc-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    </div>
+    <button onclick="show('write')" class="ml-auto hidden rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-emerald-600/20 hover:bg-emerald-700 sm:block">✏️ 글쓰기</button>
+    <span class="grid size-9 place-items-center rounded-full bg-emerald-100 text-sm font-bold text-emerald-700">나</span>
+  </div>
+</header>
+
+<main class="mx-auto max-w-6xl px-4 pb-24">
+
+  <!-- ================= LIST ================= -->
+  <section id="view-list">
+    <div class="py-8">
+      <h1 class="text-3xl font-extrabold tracking-tight">오늘의 이야기 🌱</h1>
+      <p class="mt-2 text-zinc-500">이웃들이 나누는 초록빛 일상을 둘러보세요.</p>
+      <div id="chips" class="mt-6 flex gap-2 overflow-x-auto pb-1"></div>
+    </div>
+
+    <!-- Notice banner -->
+    <div class="mb-6 flex items-center gap-3 rounded-2xl bg-emerald-700 px-5 py-4 text-sm text-white">
+      <span class="rounded-full bg-white/20 px-2.5 py-0.5 text-xs font-semibold">공지</span>
+      <span class="truncate font-medium">[필독] 그린 커뮤니티 이용 규칙 안내 (2026.09 개정)</span>
+      <span class="ml-auto shrink-0 opacity-70">›</span>
+    </div>
+
+    <div class="mb-4 flex items-center gap-4 text-sm font-semibold">
+      <button class="text-zinc-900">🔥 인기</button><button class="text-zinc-400 hover:text-zinc-700">최신</button><button class="text-zinc-400 hover:text-zinc-700">댓글 많은</button>
+    </div>
+
+    <div id="grid" class="gap-5 sm:columns-2 lg:columns-3 [&>article]:mb-5 [&>article]:break-inside-avoid"></div>
+
+    <div class="mt-10 text-center">
+      <button class="rounded-full border border-zinc-300 bg-white px-6 py-2.5 text-sm font-medium text-zinc-600 hover:border-zinc-400">더 보기</button>
+    </div>
+  </section>
+
+  <!-- ================= DETAIL ================= -->
+  <section id="view-detail" class="mx-auto hidden max-w-2xl py-8">
+    <button onclick="show('list')" class="mb-6 text-sm font-medium text-zinc-500 hover:text-zinc-900">← 피드로</button>
+    <article class="overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-black/5">
+      <div class="aspect-[16/9] bg-gradient-to-br from-lime-200 via-emerald-200 to-teal-300"></div>
+      <div class="p-6 sm:p-8">
+        <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">#정보공유</span>
+        <h1 class="mt-3 text-2xl font-extrabold leading-snug tracking-tight">베란다 텃밭 6개월 차, 방울토마토 수확량 정리해봤어요</h1>
+        <div class="mt-5 flex items-center gap-3">
+          <span class="grid size-10 place-items-center rounded-full bg-emerald-100 font-bold text-emerald-700">초</span>
+          <div class="text-sm"><p class="font-semibold">초록손</p><p class="text-zinc-400">10분 전 · 조회 214</p></div>
+          <button class="ml-auto rounded-full border border-emerald-600 px-4 py-1.5 text-sm font-semibold text-emerald-700">팔로우</button>
+        </div>
+        <div class="mt-6 space-y-4 text-[15px] leading-7 text-zinc-700">
+          <p>처음엔 화분 두 개로 시작했는데 지금은 선반 3단까지 늘었습니다. 월별 수확량과 비료 주기를 정리해봤어요.</p>
+          <p>가장 효과가 컸던 건 순 따기와 지지대 보강이었고, 8월 폭염 때는 차광막이 필수였습니다.</p>
+        </div>
+        <div class="mt-6 flex flex-wrap gap-2 text-sm text-emerald-700"><span>#텃밭</span><span>#방울토마토</span><span>#베란다</span></div>
+      </div>
+      <div class="flex items-center gap-2 border-t border-zinc-100 px-6 py-3 text-sm text-zinc-600 sm:px-8">
+        <button class="flex items-center gap-1.5 rounded-full bg-rose-50 px-3 py-1.5 font-semibold text-rose-600">♥ 42</button>
+        <button class="flex items-center gap-1.5 rounded-full px-3 py-1.5 hover:bg-zinc-100">💬 18</button>
+        <button class="ml-auto rounded-full px-3 py-1.5 hover:bg-zinc-100">🔖 저장</button>
+        <button class="rounded-full px-3 py-1.5 hover:bg-zinc-100">↗ 공유</button>
+      </div>
+    </article>
+
+    <section class="mt-6 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-black/5 sm:p-8">
+      <h2 class="font-bold">댓글 18</h2>
+      <ul id="comments" class="mt-5 space-y-5"></ul>
+      <div class="mt-6 flex items-center gap-2 rounded-full bg-zinc-100 p-1.5 pl-4">
+        <input class="min-w-0 flex-1 bg-transparent text-sm outline-none" placeholder="따뜻한 댓글을 남겨주세요" />
+        <button class="rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white">등록</button>
+      </div>
+    </section>
+  </section>
+
+  <!-- ================= WRITE ================= -->
+  <section id="view-write" class="mx-auto hidden max-w-2xl py-8">
+    <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-black/5 sm:p-8">
+      <div class="flex items-center justify-between">
+        <h1 class="text-xl font-extrabold">새 이야기</h1>
+        <button onclick="show('list')" class="grid size-9 place-items-center rounded-full text-zinc-400 hover:bg-zinc-100">✕</button>
+      </div>
+      <p class="mt-6 text-sm font-semibold text-zinc-500">어떤 이야기인가요?</p>
+      <div id="wchips" class="mt-2 flex flex-wrap gap-2"></div>
+      <input class="mt-6 w-full border-b border-zinc-200 pb-3 text-2xl font-bold outline-none placeholder:text-zinc-300 focus:border-emerald-600" placeholder="제목" />
+      <textarea rows="10" class="mt-4 w-full resize-none text-[15px] leading-7 outline-none placeholder:text-zinc-300" placeholder="이웃들과 나누고 싶은 이야기를 적어주세요."></textarea>
+      <div class="grid grid-cols-4 gap-2 sm:grid-cols-5">
+        <div class="grid aspect-square place-items-center rounded-2xl border-2 border-dashed border-zinc-200 text-2xl text-zinc-300">＋</div>
+        <div class="aspect-square rounded-2xl bg-gradient-to-br from-lime-200 to-emerald-300"></div>
+      </div>
+      <input class="mt-5 w-full rounded-xl bg-zinc-100 px-4 py-3 text-sm outline-none" placeholder="#태그 입력 (최대 5개)" />
+      <div class="mt-6 flex items-center justify-between">
+        <span class="text-xs text-zinc-400">임시저장됨 · 방금</span>
+        <button class="rounded-full bg-emerald-600 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-emerald-600/20">올리기</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Mobile FAB -->
+<button onclick="show('write')" class="fixed bottom-6 right-6 grid size-14 place-items-center rounded-full bg-emerald-600 text-2xl text-white shadow-xl shadow-emerald-600/30 sm:hidden">✏️</button>
+
+<script>
+const B = window.BOARD;
+function show(v){ ['list','detail','write'].forEach(n=>document.getElementById('view-'+n).classList.toggle('hidden', n!==v)); scrollTo(0,0); }
+const chip = (c,i,active) => `<button class="shrink-0 rounded-full px-4 py-2 text-sm font-medium ${i===active?'bg-zinc-900 text-white':'bg-white text-zinc-600 ring-1 ring-zinc-200 hover:ring-zinc-300'}">${c.name}${c.count&&i===active?` <span class="opacity-60">${c.count.toLocaleString()}</span>`:''}</button>`;
+document.getElementById('chips').innerHTML = B.categories.map((c,i)=>chip(c,i,0)).join('');
+document.getElementById('wchips').innerHTML = B.categories.slice(1).map((c,i)=>chip({name:c.name},i,0)).join('');
+const grads = ['from-lime-200 to-emerald-300','from-emerald-100 to-teal-300','from-amber-100 to-lime-200','from-teal-100 to-cyan-200','from-green-200 to-lime-100'];
+document.getElementById('grid').innerHTML = B.posts.map((p,i)=>`
+  <article onclick="show('detail')" class="group cursor-pointer overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-black/5 transition hover:-translate-y-1 hover:shadow-lg">
+    ${p.img?`<div class="aspect-[16/10] bg-gradient-to-br ${grads[i%grads.length]}"></div>`:''}
+    <div class="p-5">
+      <div class="flex items-center gap-2 text-xs"><span class="rounded-full bg-emerald-50 px-2.5 py-1 font-semibold text-emerald-700">${catName(p.cat)}</span>${p.hot?'<span class="font-semibold text-orange-500">🔥 HOT</span>':''}</div>
+      <h3 class="mt-3 line-clamp-2 text-[17px] font-bold leading-snug group-hover:text-emerald-700">${p.title}</h3>
+      <p class="mt-2 ${p.img?'line-clamp-2':'line-clamp-4'} text-sm leading-6 text-zinc-500">${p.excerpt}</p>
+      <div class="mt-4 flex items-center gap-2 text-xs text-zinc-500">
+        <span class="grid size-6 place-items-center rounded-full bg-emerald-100 text-[11px] font-bold text-emerald-700">${p.avatar}</span>
+        <span class="font-medium text-zinc-700">${p.author}</span><span>· ${p.date}</span>
+        <span class="ml-auto flex gap-3"><span>♥ ${p.likes}</span><span>💬 ${p.comments}</span></span>
+      </div>
+    </div>
+  </article>`).join('');
+const cm = (c,sm) => `<div class="flex gap-3"><span class="grid ${sm?'size-7':'size-9'} shrink-0 place-items-center rounded-full bg-emerald-100 text-xs font-bold text-emerald-700">${c.avatar}</span>
+  <div><div class="rounded-2xl rounded-tl-sm bg-zinc-100 px-4 py-2.5"><p class="text-xs font-semibold">${c.author}</p><p class="mt-0.5 text-sm text-zinc-700">${c.body}</p></div>
+  <div class="mt-1 flex gap-3 pl-2 text-xs text-zinc-400"><span>${c.date}</span><button class="font-semibold">좋아요 ${c.likes}</button><button class="font-semibold">답글</button></div></div></div>`;
+document.getElementById('comments').innerHTML = B.comments.map(c=>`<li>${cm(c)}${c.replies.map(r=>`<div class="ml-12 mt-3">${cm(r,1)}</div>`).join('')}</li>`).join('');
+</script>
+</body>
+</html>

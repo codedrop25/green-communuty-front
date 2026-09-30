@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Pretendard Variable", Pretendard, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono);
+
+  --color-surface: #ffffff;
+  --color-surface-subtle: #fafafa;
+  --color-surface-muted: #f4f4f5;
+  --color-border: #e4e4e7;
+  --color-border-subtle: #f4f4f5;
+  --color-border-strong: #9f9fa9;
+
+  --color-fg: #18181b;
+  --color-fg-body: #3f3f46;
+  --color-fg-secondary: #52525c;
+  --color-fg-muted: #71717b;
+  --color-fg-subtle: #9f9fa9;
+
+  --color-primary: #18181b;
+  --color-primary-hover: #3f3f46;
+  --color-brand: #008236;
+  --color-brand-hover: #016630;
+  --color-brand-soft: #f0fdf4;
+  --color-brand-strong: #00c950;
+  --color-danger: #e7000b;
+
+  --color-cat-all: #9f9fa9;
+  --color-cat-free: #00c950;
+  --color-cat-qna: #00a6f4;
+  --color-cat-info: #fe9a00;
+  --color-cat-review: #8e51ff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--color-surface);
+}
+
+body {
+  margin: 0;
+  background: var(--color-surface);
+  color: var(--color-fg);
+  font-size: 14px;
+}
+
+:where(a, button, input, textarea, select):focus-visible {
+  outline: 2px solid var(--color-fg);
+  outline-offset: 2px;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}

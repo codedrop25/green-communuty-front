@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>게시판 UI 시안 비교</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style type="text/tailwindcss">@theme { --font-sans: "Pretendard Variable", Pretendard, system-ui, sans-serif; }</style>
+</head>
+<body class="bg-zinc-100 font-sans text-zinc-900 antialiased">
+<main class="mx-auto max-w-6xl px-4 py-12">
+  <p class="text-sm font-semibold text-green-700">Green Community · Board UI</p>
+  <h1 class="mt-2 text-3xl font-bold tracking-tight">게시판 기본 UI 시안 4종</h1>
+  <p class="mt-2 text-zinc-500">각 시안은 <b>목록 → 상세(제목 클릭) → 글쓰기(글쓰기 버튼)</b> 3개 화면을 포함합니다. 모바일 폭에서도 확인해 주세요.</p>
+  <div class="mt-8 grid gap-5 md:grid-cols-2">
+    <a href="A-classic-table.html" class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5 hover:ring-green-600">
+      <p class="text-xs font-bold text-green-700">A</p><h2 class="mt-1 text-lg font-bold">클래식 테이블형</h2>
+      <p class="mt-2 text-sm leading-6 text-zinc-500">번호·분류·작성자·조회·추천 컬럼의 정통 한국형 게시판. 정보 밀도 높고 관리/검색 중심. 모바일은 리스트로 전환.</p>
+      <p class="mt-3 text-xs text-zinc-400">추천: 공지·Q&A·정보성 게시판, 중장년층 사용자</p></a>
+    <a href="B-card-feed.html" class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5 hover:ring-green-600">
+      <p class="text-xs font-bold text-emerald-600">B</p><h2 class="mt-1 text-lg font-bold">카드 피드형</h2>
+      <p class="mt-2 text-sm leading-6 text-zinc-500">썸네일·태그·좋아요 중심의 SNS형 카드 그리드. 칩 필터, 모바일 FAB, 말풍선 댓글.</p>
+      <p class="mt-3 text-xs text-zinc-400">추천: 사진·후기 비중 높은 라이프스타일 커뮤니티</p></a>
+    <a href="C-sidebar-community.html" class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5 hover:ring-green-600">
+      <p class="text-xs font-bold text-green-900">C</p><h2 class="mt-1 text-lg font-bold">사이드바 커뮤니티형</h2>
+      <p class="mt-2 text-sm leading-6 text-zinc-500">좌측 게시판 내비 + 중앙 피드 + 우측 인기글/규칙 위젯의 3단 레이아웃. 추천(▲) 투표, 스레드 댓글.</p>
+      <p class="mt-3 text-xs text-zinc-400">추천: 게시판이 여러 개인 활발한 커뮤니티 (Reddit/디스코스 계열)</p></a>
+    <a href="D-minimal-editorial.html" class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5 hover:ring-green-600">
+      <p class="text-xs font-bold text-[#2f6b45]">D</p><h2 class="mt-1 text-lg font-bold">미니멀 에디토리얼형</h2>
+      <p class="mt-2 text-sm leading-6 text-zinc-500">세리프 타이포와 여백 중심의 매거진 톤. 에디터 픽, 읽기 진행바, 몰입형 에디터, 다크모드(◐) 토글.</p>
+      <p class="mt-3 text-xs text-zinc-400">추천: 긴 글·칼럼 위주, 브랜드 감성 강조</p></a>
+  </div>
+</main>
+</body>
+</html>

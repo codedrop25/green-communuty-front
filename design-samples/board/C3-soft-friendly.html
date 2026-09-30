@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>C3 · 소프트 프렌들리</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style type="text/tailwindcss">
+  @theme {
+    --font-sans: "Pretendard Variable", Pretendard, system-ui, sans-serif;
+    --color-mint: #00b36b; --color-mint-soft: #e3f7ec; --color-base: #f2f5f1; --color-ink: #191f28;
+  }
+</style>
+<script src="_data.js"></script>
+</head>
+<body class="bg-base font-sans text-ink antialiased">
+
+<header class="sticky top-0 z-20 bg-base/90 backdrop-blur">
+  <div class="mx-auto flex h-16 max-w-7xl items-center gap-4 px-5">
+    <a onclick="show('list')" class="flex cursor-pointer items-center gap-2 text-lg font-extrabold">
+      <span class="grid size-9 place-items-center rounded-2xl bg-mint text-lg text-white">🌿</span>그린이웃
+    </a>
+    <div class="mx-auto hidden w-full max-w-md items-center gap-2 rounded-2xl bg-white px-4 py-2.5 text-sm text-[#8b95a1] md:flex">🔍 무엇이 궁금하세요?</div>
+    <div class="ml-auto flex items-center gap-2">
+      <button class="grid size-10 place-items-center rounded-2xl bg-white">🔔</button>
+      <button onclick="show('write')" class="rounded-2xl bg-mint px-4 py-2.5 text-sm font-bold text-white hover:brightness-95">글쓰기</button>
+    </div>
+  </div>
+</header>
+
+<div class="mx-auto grid max-w-7xl gap-5 px-5 pb-10 pt-2 lg:grid-cols-[210px_1fr_290px]">
+  <aside class="hidden lg:block">
+    <nav class="sticky top-20 space-y-1 rounded-3xl bg-white p-3">
+      <a class="flex items-center gap-3 rounded-2xl bg-mint-soft px-3 py-2.5 font-bold text-mint"><span class="grid size-8 place-items-center rounded-xl bg-white">🏠</span>홈</a>
+      <a class="flex items-center gap-3 rounded-2xl px-3 py-2.5 font-semibold text-[#4e5968] hover:bg-base"><span class="grid size-8 place-items-center rounded-xl bg-base">🔥</span>인기글</a>
+      <div class="my-2 h-px bg-base"></div>
+      <div id="boards" class="space-y-1"></div>
+    </nav>
+  </aside>
+
+  <main class="min-w-0">
+    <!-- ================= LIST ================= -->
+    <section id="view-list" class="space-y-3">
+      <div class="rounded-3xl bg-mint p-6 text-white">
+        <p class="text-sm font-semibold opacity-80">자유게시판</p>
+        <h1 class="mt-1 text-2xl font-extrabold leading-snug">오늘은 어떤 초록 이야기가<br/>있었나요? 🌱</h1>
+        <button onclick="show('write')" class="mt-4 rounded-2xl bg-white px-4 py-2.5 text-sm font-bold text-mint">이야기 남기기</button>
+      </div>
+
+      <div class="flex gap-2 overflow-x-auto py-1 text-sm font-bold">
+        <button class="shrink-0 rounded-full bg-[#191f28] px-4 py-2 text-white">최신순</button>
+        <button class="shrink-0 rounded-full bg-white px-4 py-2 text-[#4e5968]">인기순</button>
+        <button class="shrink-0 rounded-full bg-white px-4 py-2 text-[#4e5968]">댓글 많은 순</button>
+        <button class="shrink-0 rounded-full bg-white px-4 py-2 text-[#4e5968]">🙋 답변을 기다려요</button>
+      </div>
+
+      <div class="flex items-center gap-3 rounded-3xl bg-white px-5 py-4 text-sm">
+        <span class="grid size-8 shrink-0 place-items-center rounded-xl bg-amber-100">📢</span>
+        <span class="truncate font-bold">그린 커뮤니티 이용 규칙이 바뀌었어요</span><span class="ml-auto shrink-0 text-[#8b95a1]">›</span>
+      </div>
+
+      <ul id="rows" class="space-y-3"></ul>
+      <button class="w-full rounded-3xl bg-white py-4 text-sm font-bold text-[#4e5968]">더 보기</button>
+    </section>
+
+    <!-- ================= DETAIL ================= -->
+    <section id="view-detail" class="hidden space-y-3">
+      <button onclick="show('list')" class="rounded-2xl bg-white px-4 py-2 text-sm font-bold text-[#4e5968]">← 목록</button>
+      <article class="rounded-3xl bg-white p-6 sm:p-8">
+        <span class="rounded-xl bg-mint-soft px-3 py-1.5 text-xs font-bold text-mint">📚 정보공유</span>
+        <h1 class="mt-4 text-2xl font-extrabold leading-snug">베란다 텃밭 6개월 차, 방울토마토 수확량 정리해봤어요</h1>
+        <div class="mt-5 flex items-center gap-3">
+          <span class="grid size-11 place-items-center rounded-2xl bg-mint-soft text-lg font-extrabold text-mint">초</span>
+          <div class="text-sm"><p class="font-bold">초록손 <span class="ml-1 rounded-lg bg-amber-100 px-1.5 py-0.5 text-[11px] text-amber-700">🌳 Lv.12</span></p><p class="text-[#8b95a1]">10분 전 · 조회 214</p></div>
+        </div>
+        <div class="mt-6 space-y-4 text-[16px] leading-[1.8] text-[#333d4b]">
+          <p>처음엔 화분 두 개로 시작했는데 지금은 선반 3단까지 늘었어요. 월별 수확량과 비료 주기를 정리해봤어요.</p>
+          <div class="aspect-[16/10] rounded-3xl bg-gradient-to-br from-mint-soft to-[#b8ecd0]"></div>
+          <p>가장 효과가 컸던 건 순 따기와 지지대 보강이었고, 8월 폭염 때는 차광막이 꼭 필요했어요.</p>
+        </div>
+        <div class="mt-8 grid grid-cols-3 gap-2 text-sm font-bold">
+          <button class="rounded-2xl bg-mint-soft py-3 text-mint">💚 좋아요 42</button>
+          <button class="rounded-2xl bg-base py-3 text-[#4e5968]">🔖 저장</button>
+          <button class="rounded-2xl bg-base py-3 text-[#4e5968]">📤 공유</button>
+        </div>
+      </article>
+      <section class="rounded-3xl bg-white p-6 sm:p-8">
+        <h2 class="text-lg font-extrabold">댓글 <span class="text-mint">18</span></h2>
+        <ul id="comments" class="mt-5 space-y-5"></ul>
+        <div class="mt-6 flex items-center gap-2 rounded-2xl bg-base p-2 pl-4">
+          <input class="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-[#8b95a1]" placeholder="따뜻한 한마디를 남겨주세요" />
+          <button class="rounded-xl bg-mint px-4 py-2 text-sm font-bold text-white">등록</button>
+        </div>
+      </section>
+    </section>
+
+    <!-- ================= WRITE ================= -->
+    <section id="view-write" class="hidden">
+      <div class="rounded-3xl bg-white p-6 sm:p-8">
+        <h1 class="text-2xl font-extrabold">어떤 이야기를 나눌까요?</h1>
+        <p class="mt-4 text-sm font-bold text-[#4e5968]">게시판을 골라주세요</p>
+        <div id="wboards" class="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-4"></div>
+        <p class="mt-6 text-sm font-bold text-[#4e5968]">제목</p>
+        <input class="mt-2 w-full rounded-2xl bg-base px-4 py-3.5 font-bold outline-none placeholder:font-medium placeholder:text-[#b0b8c1] focus:ring-2 focus:ring-mint" placeholder="제목을 입력해주세요" />
+        <p class="mt-6 text-sm font-bold text-[#4e5968]">내용</p>
+        <textarea rows="10" class="mt-2 w-full resize-none rounded-2xl bg-base p-4 leading-7 outline-none placeholder:text-[#b0b8c1] focus:ring-2 focus:ring-mint" placeholder="이웃에게 들려주고 싶은 이야기를 자유롭게 적어주세요"></textarea>
+        <div class="mt-3 flex gap-2">
+          <button class="grid size-20 place-items-center rounded-2xl bg-base text-sm text-[#8b95a1]">📷<br/>0/10</button>
+        </div>
+        <div class="mt-8 grid grid-cols-[1fr_2fr] gap-2">
+          <button onclick="show('list')" class="rounded-2xl bg-base py-4 font-bold text-[#4e5968]">취소</button>
+          <button class="rounded-2xl bg-mint py-4 font-bold text-white">올리기</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <aside class="hidden space-y-3 lg:block">
+    <div class="rounded-3xl bg-white p-5">
+      <div class="flex items-center gap-3">
+        <span class="grid size-12 place-items-center rounded-2xl bg-mint-soft text-xl">🌱</span>
+        <div><p class="font-extrabold">초록손님</p><p class="text-xs text-[#8b95a1]">새싹 Lv.3 · 다음 레벨까지 120P</p></div>
+      </div>
+      <div class="mt-4 h-2.5 rounded-full bg-base"><div class="h-full w-2/3 rounded-full bg-mint"></div></div>
+      <div class="mt-4 grid grid-cols-3 text-center text-xs text-[#8b95a1]">
+        <div><p class="text-base font-extrabold text-ink">12</p>내 글</div><div><p class="text-base font-extrabold text-ink">48</p>댓글</div><div><p class="text-base font-extrabold text-ink">156</p>받은 💚</div>
+      </div>
+    </div>
+    <div class="rounded-3xl bg-white p-5">
+      <p class="font-extrabold">지금 뜨는 글 🔥</p>
+      <ol id="popular" class="mt-3 space-y-1"></ol>
+    </div>
+    <div class="rounded-3xl bg-[#fff6e0] p-5">
+      <p class="font-extrabold">오늘의 미션 🎯</p>
+      <p class="mt-1 text-sm text-[#6b5a2a]">댓글 3개 남기고 30P 받기</p>
+      <div class="mt-3 flex gap-1.5"><span class="h-2 flex-1 rounded-full bg-amber-400"></span><span class="h-2 flex-1 rounded-full bg-amber-400"></span><span class="h-2 flex-1 rounded-full bg-amber-200"></span></div>
+    </div>
+  </aside>
+</div>
+
+<script>
+const B = window.BOARD;
+function show(v){ ['list','detail','write'].forEach(n=>document.getElementById('view-'+n).classList.toggle('hidden', n!==v)); scrollTo(0,0); }
+const icons = {all:'🌿',free:'💬',qna:'🙋',info:'📚',review:'⭐'};
+document.getElementById('boards').innerHTML = B.categories.map((c,i)=>`<a class="flex items-center gap-3 rounded-2xl px-3 py-2.5 font-semibold ${i===1?'text-ink':'text-[#4e5968]'} hover:bg-base"><span class="grid size-8 place-items-center rounded-xl bg-base">${icons[c.id]}</span>${c.name}${i===1?'<span class="ml-auto size-2 rounded-full bg-mint"></span>':''}</a>`).join('');
+document.getElementById('wboards').innerHTML = B.categories.slice(1).map((c,i)=>`<button class="rounded-2xl px-3 py-3 text-sm font-bold ${i===0?'bg-mint-soft text-mint ring-2 ring-mint':'bg-base text-[#4e5968]'}">${icons[c.id]} ${c.name}</button>`).join('');
+document.getElementById('popular').innerHTML = B.popular.map((t,i)=>`<li><a class="flex items-center gap-3 rounded-2xl px-2 py-2 text-sm hover:bg-base"><span class="grid size-6 shrink-0 place-items-center rounded-lg text-xs font-extrabold ${i<3?'bg-mint text-white':'bg-base text-[#8b95a1]'}">${i+1}</span><span class="line-clamp-1 font-semibold text-[#333d4b]">${t}</span></a></li>`).join('');
+document.getElementById('rows').innerHTML = B.posts.map(p=>`
+  <li onclick="show('detail')" class="flex cursor-pointer gap-4 rounded-3xl bg-white p-5 transition hover:scale-[1.01] hover:shadow-lg hover:shadow-black/5">
+    <div class="min-w-0 flex-1">
+      <p class="flex items-center gap-1.5 text-xs font-bold text-[#8b95a1]"><span class="rounded-lg bg-base px-2 py-1">${icons[p.cat]} ${catName(p.cat)}</span>${p.hot?'<span class="rounded-lg bg-rose-50 px-2 py-1 text-rose-500">인기</span>':''}${p.isNew?'<span class="rounded-lg bg-mint-soft px-2 py-1 text-mint">새 글</span>':''}</p>
+      <h3 class="mt-2.5 text-[17px] font-bold leading-snug">${p.title}</h3>
+      <p class="mt-1 line-clamp-1 text-sm text-[#6b7684]">${p.excerpt}</p>
+      <p class="mt-3 flex items-center gap-3 text-xs font-semibold text-[#8b95a1]"><span>${p.author}</span><span>${p.date}</span><span class="ml-auto flex gap-3"><span class="text-mint">💚 ${p.likes}</span><span>💬 ${p.comments}</span></span></p>
+    </div>
+    ${p.img?'<div class="hidden size-24 shrink-0 rounded-2xl bg-gradient-to-br from-mint-soft to-[#b8ecd0] sm:block"></div>':''}
+  </li>`).join('');
+const cm = (c,r) => `<div class="flex gap-3"><span class="grid ${r?'size-8':'size-10'} shrink-0 place-items-center rounded-2xl bg-mint-soft text-sm font-extrabold text-mint">${c.avatar}</span>
+  <div class="min-w-0 flex-1"><p class="text-sm font-bold">${c.author} <span class="ml-1 text-xs font-medium text-[#8b95a1]">${c.date}</span></p><p class="mt-1 text-[15px] leading-6 text-[#333d4b]">${c.body}</p>
+  <div class="mt-2 flex gap-2 text-xs font-bold text-[#8b95a1]"><button class="rounded-lg bg-base px-2 py-1">💚 ${c.likes}</button><button class="rounded-lg bg-base px-2 py-1">답글 달기</button></div></div></div>`;
+document.getElementById('comments').innerHTML = B.comments.map(c=>`<li>${cm(c)}${c.replies.map(r=>`<div class="ml-12 mt-4 rounded-2xl bg-base p-4">${cm(r,1)}</div>`).join('')}</li>`).join('');
+</script>
+</body>
+</html>

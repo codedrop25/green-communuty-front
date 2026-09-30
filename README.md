@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Green Community Front
 
-## Getting Started
+Next.js App Router 기반 커뮤니티 프런트엔드입니다.
 
-First, run the development server:
+## 실행 방법
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+브라우저에서 [http://localhost:3000](http://localhost:3000)을 엽니다.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 폴더 구조
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```text
+src/
+├─ app/          # App Router 페이지, 레이아웃, Route Handler
+├─ components/   # 화면 및 도메인별 React 컴포넌트
+│  ├─ auth/
+│  ├─ common/
+│  ├─ community/
+│  ├─ home/
+│  ├─ layout/
+│  ├─ post/
+│  └─ providers/
+├─ contexts/     # React Context
+├─ hooks/        # 공용 커스텀 훅
+├─ lib/          # API 클라이언트, 유틸리티, 서버 전용 코드
+│  ├─ server/
+│  └─ utils/
+├─ stores/       # 전역 상태 저장소
+└─ types/        # 공용 타입
 
-## Learn More
+public/
+└─ images/       # 정적 이미지
+```
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+특정 기능에서만 사용하는 코드는 해당 도메인 폴더에 두고, 여러 기능에서 재사용할 때만 공용 폴더로 이동합니다.

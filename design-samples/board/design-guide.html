@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Green Community 디자인 가이드</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style type="text/tailwindcss">
+  @theme {
+    --font-sans: "Pretendard Variable", Pretendard, system-ui, sans-serif;
+    --color-surface: #ffffff; --color-surface-subtle: #fafafa; --color-surface-muted: #f4f4f5;
+    --color-border: #e4e4e7; --color-border-subtle: #f4f4f5; --color-border-strong: #9f9fa9;
+    --color-fg: #18181b; --color-fg-body: #3f3f46; --color-fg-secondary: #52525c; --color-fg-muted: #71717b; --color-fg-subtle: #9f9fa9;
+    --color-primary: #18181b; --color-primary-hover: #3f3f46;
+    --color-brand: #008236; --color-brand-hover: #016630; --color-brand-soft: #f0fdf4; --color-brand-strong: #00c950;
+    --color-cat-all: #9f9fa9; --color-cat-free: #00c950; --color-cat-qna: #00a6f4; --color-cat-info: #fe9a00; --color-cat-review: #8e51ff;
+  }
+  @layer components {
+    .sec { @apply scroll-mt-20 border-t border-border pt-10 mt-14 first:mt-0 first:border-0 first:pt-0; }
+    .h2 { @apply text-xl font-semibold tracking-tight text-fg; }
+    .lead { @apply mt-1 text-fg-muted; }
+    .h3 { @apply mt-8 mb-3 text-[13px] font-semibold text-fg; }
+    .spec { @apply font-mono text-[11px] text-fg-muted; }
+    .btn { @apply inline-flex items-center justify-center gap-1.5 rounded-md font-medium transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg; }
+  }
+</style>
+</head>
+<body class="bg-surface font-sans text-[14px] text-fg antialiased">
+<div class="flex min-h-screen">
+
+  <aside class="sticky top-0 hidden h-screen w-60 shrink-0 flex-col border-r border-border bg-surface-subtle/70 lg:flex">
+    <div class="flex h-14 items-center gap-2 px-5 font-semibold"><span class="grid size-6 place-items-center rounded-md bg-brand text-xs font-bold text-white">G</span>Design Guide</div>
+    <nav id="toc" class="space-y-0.5 px-3 text-fg-secondary"></nav>
+    <p class="mt-auto border-t border-border px-5 py-3 text-xs text-fg-muted">v1.0 · 2026.09.30 · 기준 시안 C1</p>
+  </aside>
+
+  <div class="min-w-0 flex-1">
+    <header class="sticky top-0 z-10 flex h-14 items-center border-b border-border bg-surface/90 px-6 backdrop-blur">
+      <p class="text-fg-muted">Green Community <span class="mx-1 text-fg-subtle">/</span> <b class="font-medium text-fg">디자인 가이드</b></p>
+      <a href="C1-clean-light.html" class="btn ml-auto h-8 border border-border px-3 text-[13px] hover:bg-surface-subtle">기준 시안 보기</a>
+    </header>
+
+    <main class="mx-auto max-w-5xl px-6 py-10">
+
+      <!-- Intro -->
+      <section id="principles" class="sec">
+        <p class="text-[13px] font-medium text-brand">Green Community · C1 Clean Light</p>
+        <h1 class="mt-1 text-2xl font-semibold tracking-tight">디자인 가이드 v1.0</h1>
+        <p class="lead max-w-2xl leading-6">글이 주인공이 되는 조용한 UI를 지향합니다. 색은 뉴트럴 중심, 면은 선으로 나누고, 브랜드 그린은 상태와 확정 액션에만 씁니다.</p>
+        <div class="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <div class="rounded-lg border border-border p-4"><p class="font-medium">조용한 UI</p><p class="mt-1 text-[13px] text-fg-muted">UI는 물러나고 콘텐츠가 드러난다</p></div>
+          <div class="rounded-lg border border-border p-4"><p class="font-medium">선으로 구분</p><p class="mt-1 text-[13px] text-fg-muted">그림자는 “선택됨”에만</p></div>
+          <div class="rounded-lg border border-border p-4"><p class="font-medium">밀도 + 여백</p><p class="mt-1 text-[13px] text-fg-muted">14px 기본, 4px 그리드</p></div>
+          <div class="rounded-lg border border-border p-4"><p class="font-medium">일관성</p><p class="mt-1 text-[13px] text-fg-muted">같은 역할은 같은 모양</p></div>
+        </div>
+      </section>
+
+      <!-- Color -->
+      <section id="color" class="sec">
+        <h2 class="h2">컬러</h2>
+        <p class="lead">코드에서는 시맨틱 토큰 이름만 사용합니다. 대비값은 흰 배경 기준입니다.</p>
+        <h3 class="h3">Foreground</h3>
+        <div id="sw-fg" class="grid gap-3 sm:grid-cols-3 lg:grid-cols-5"></div>
+        <h3 class="h3">Surface · Border</h3>
+        <div id="sw-sf" class="grid gap-3 sm:grid-cols-3 lg:grid-cols-6"></div>
+        <h3 class="h3">Action · Brand</h3>
+        <div id="sw-br" class="grid gap-3 sm:grid-cols-3 lg:grid-cols-6"></div>
+        <h3 class="h3">카테고리 (dot 전용 · 반드시 텍스트 동반)</h3>
+        <div id="sw-cat" class="flex flex-wrap gap-5"></div>
+
+        <div class="mt-8 grid gap-3 sm:grid-cols-2">
+          <div class="rounded-lg border border-border p-4">
+            <p class="text-[13px] font-semibold text-brand">✓ Do</p>
+            <div class="mt-3 flex items-center gap-2"><span class="rounded bg-brand-soft px-1.5 py-0.5 text-[11px] font-semibold text-brand">공지</span><span class="text-xs text-fg-muted">정보공유 · 초록손 · 10분 전</span></div>
+            <p class="mt-2 text-xs text-fg-muted">메타는 fg-muted(4.8:1), 브랜드 텍스트는 brand(4.95:1)</p>
+          </div>
+          <div class="rounded-lg border border-border p-4">
+            <p class="text-[13px] font-semibold text-red-600">✕ Don't</p>
+            <div class="mt-3 flex items-center gap-2"><span class="rounded bg-brand-soft px-1.5 py-0.5 text-[11px] font-semibold text-brand-strong">공지</span><span class="text-xs text-fg-subtle">정보공유 · 초록손 · 10분 전</span></div>
+            <p class="mt-2 text-xs text-fg-muted">fg-subtle(2.6:1)·brand-strong(2.2:1)을 텍스트에 쓰지 않는다</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Typography -->
+      <section id="type" class="sec">
+        <h2 class="h2">타이포그래피</h2>
+        <p class="lead">Pretendard Variable · 굵기 400 / 500 / 600만 사용</p>
+        <div id="typo" class="mt-6 divide-y divide-border-subtle rounded-lg border border-border"></div>
+      </section>
+
+      <!-- Spacing & Shape -->
+      <section id="space" class="sec">
+        <h2 class="h2">스페이싱 · 형태</h2>
+        <p class="lead">4px 그리드. 내부 8·12 / 컴포넌트 간 16·24 / 섹션 간 32·40</p>
+        <h3 class="h3">Spacing scale</h3>
+        <div id="spacing" class="flex flex-wrap items-end gap-4"></div>
+        <h3 class="h3">Radius</h3>
+        <div class="flex flex-wrap gap-4">
+          <div class="text-center"><div class="size-16 rounded border border-border-strong bg-surface-subtle"></div><p class="spec mt-1.5">sm 4 · 배지</p></div>
+          <div class="text-center"><div class="size-16 rounded-md border border-border-strong bg-surface-subtle"></div><p class="spec mt-1.5">md 6 · 버튼/입력</p></div>
+          <div class="text-center"><div class="size-16 rounded-lg border border-border-strong bg-surface-subtle"></div><p class="spec mt-1.5">lg 8 · 컨테이너</p></div>
+          <div class="text-center"><div class="size-16 rounded-full border border-border-strong bg-surface-subtle"></div><p class="spec mt-1.5">full · 아바타</p></div>
+        </div>
+        <h3 class="h3">Elevation</h3>
+        <div class="flex flex-wrap gap-4">
+          <div class="w-40 rounded-lg border border-border p-4 text-[13px]">기본<p class="spec">border only</p></div>
+          <div class="w-40 rounded-lg bg-surface p-4 text-[13px] shadow-sm ring-1 ring-border">선택됨<p class="spec">shadow-sm + ring-1</p></div>
+          <div class="w-40 rounded-lg border border-border bg-surface p-4 text-[13px] shadow-lg">떠있는 레이어<p class="spec">shadow-lg · 메뉴/모달</p></div>
+        </div>
+      </section>
+
+      <!-- Layout -->
+      <section id="layout" class="sec">
+        <h2 class="h2">레이아웃</h2>
+        <p class="lead">앱 셸 3단 구조 · lg(1024)에서 사이드바 고정, xl(1280)에서 우측 레일 노출</p>
+        <div class="mt-6 overflow-hidden rounded-lg border border-border text-[12px]">
+          <div class="grid h-64 grid-cols-[120px_1fr_130px]">
+            <div class="flex flex-col border-r border-border bg-surface-subtle p-3"><b class="text-fg">Sidebar</b><span class="spec">w-60 · 240px</span><span class="spec">sticky h-screen</span><span class="spec mt-auto">프로필 고정</span></div>
+            <div class="flex flex-col">
+              <div class="flex h-10 items-center border-b border-border px-3"><b>Topbar</b><span class="spec ml-2">h-14 · 56px · sticky · blur</span></div>
+              <div class="flex-1 p-3"><b>Main</b><p class="spec">max-w-6xl 1152 · px-6 · py-8</p>
+                <div class="mt-3 space-y-1.5"><div class="h-3 w-1/3 rounded bg-surface-muted"></div><div class="h-16 rounded border border-dashed border-border-strong"></div></div></div>
+            </div>
+            <div class="border-l border-dashed border-border p-3"><b>Right rail</b><p class="spec">260px · gap-10</p><p class="spec">xl 이상</p></div>
+          </div>
+        </div>
+        <div class="mt-4 overflow-x-auto">
+          <table class="w-full text-[13px]"><thead class="text-left text-fg-muted"><tr class="border-b border-border"><th class="py-2 font-medium">구간</th><th class="font-medium">폭</th><th class="font-medium">동작</th></tr></thead>
+            <tbody class="divide-y divide-border-subtle text-fg-body">
+              <tr><td class="py-2">Mobile</td><td>&lt; 640</td><td>1단 · ☰ 드로어 · 리스트 수치 숨김</td></tr>
+              <tr><td class="py-2">Tablet</td><td>640–1023</td><td>1단 · 드로어 · 수치 노출</td></tr>
+              <tr><td class="py-2">Desktop</td><td>1024–1279</td><td>Sidebar 고정 + Main</td></tr>
+              <tr><td class="py-2">Wide</td><td>≥ 1280</td><td>Sidebar + Main + Right rail</td></tr>
+            </tbody></table>
+        </div>
+      </section>
+
+      <!-- Components -->
+      <section id="components" class="sec">
+        <h2 class="h2">컴포넌트</h2>
+        <p class="lead">각 컴포넌트는 <code class="rounded bg-surface-muted px-1 text-[12px]">src/components/*</code> 경로에 대응합니다.</p>
+
+        <h3 class="h3">Button <span class="spec ml-1">common/Button</span></h3>
+        <div class="space-y-4 rounded-lg border border-border p-5">
+          <div class="flex flex-wrap items-center gap-2">
+            <button class="btn h-8 bg-primary px-3 text-[13px] text-white hover:bg-primary-hover">새 글 작성</button>
+            <button class="btn h-8 bg-brand px-3 text-[13px] text-white hover:bg-brand-hover">게시하기</button>
+            <button class="btn h-8 border border-border bg-surface px-3 text-[13px] hover:bg-surface-subtle">임시저장</button>
+            <button class="btn h-8 px-3 text-[13px] text-fg-secondary hover:bg-surface-muted">취소</button>
+            <button class="btn h-8 px-3 text-[13px] text-red-600 hover:bg-red-50">삭제</button>
+          </div>
+          <div class="flex flex-wrap gap-6 spec"><span>primary</span><span>brand · 화면당 1개</span><span>secondary</span><span>ghost</span><span>danger</span></div>
+          <div class="flex flex-wrap items-center gap-2 border-t border-border-subtle pt-4">
+            <button class="btn h-7 bg-primary px-2.5 text-[13px] text-white">sm 28</button>
+            <button class="btn h-8 bg-primary px-3 text-[13px] text-white">md 32</button>
+            <button class="btn h-10 bg-primary px-4 text-[14px] text-white">lg 40</button>
+            <span class="mx-2 h-6 w-px bg-border"></span>
+            <button class="btn h-8 bg-primary px-3 text-[13px] text-white outline-2 outline-offset-2 outline-fg">focus</button>
+            <button class="btn h-8 cursor-not-allowed bg-primary px-3 text-[13px] text-white opacity-50">disabled</button>
+            <button class="btn h-8 bg-primary px-3 text-[13px] text-white"><span class="size-3.5 animate-spin rounded-full border-2 border-white/30 border-t-white"></span>등록 중</button>
+          </div>
+        </div>
+
+        <h3 class="h3">Input · Select · Textarea <span class="spec ml-1">common/Input</span></h3>
+        <div class="grid gap-5 rounded-lg border border-border p-5 sm:grid-cols-2">
+          <label class="block"><span class="text-[13px] font-medium text-fg-body">제목</span>
+            <input class="mt-1.5 w-full rounded-md border border-border px-3 py-2 outline-none placeholder:text-fg-subtle focus:border-border-strong focus:ring-4 focus:ring-surface-muted" placeholder="제목을 입력하세요" />
+            <span class="mt-1 block text-xs text-fg-muted">최대 100자</span></label>
+          <label class="block"><span class="text-[13px] font-medium text-fg-body">제목 <span class="text-red-600">*</span></span>
+            <input aria-invalid="true" class="mt-1.5 w-full rounded-md border border-red-500 px-3 py-2 outline-none ring-4 ring-red-50" value="" placeholder="제목을 입력하세요" />
+            <span class="mt-1 block text-xs text-red-600">제목을 입력해주세요.</span></label>
+          <label class="block"><span class="text-[13px] font-medium text-fg-body">게시판</span>
+            <select class="mt-1.5 w-full rounded-md border border-border px-3 py-2"><option>자유게시판</option></select></label>
+          <label class="block"><span class="text-[13px] font-medium text-fg-body">태그</span>
+            <div class="mt-1.5 flex flex-wrap items-center gap-1.5 rounded-md border border-border px-2 py-1.5"><span class="rounded bg-surface-muted px-2 py-0.5 text-xs">텃밭 ✕</span><input class="min-w-20 flex-1 py-0.5 outline-none placeholder:text-fg-subtle" placeholder="태그 추가" /></div></label>
+        </div>
+
+        <h3 class="h3">SegmentedTabs · Badge · Avatar</h3>
+        <div class="flex flex-wrap items-center gap-8 rounded-lg border border-border p-5">
+          <div role="tablist" class="inline-flex rounded-lg bg-surface-muted p-0.5 text-[13px]">
+            <button role="tab" aria-selected="true" class="rounded-md bg-surface px-3 py-1 font-medium shadow-sm">최신</button><button role="tab" class="rounded-md px-3 py-1 text-fg-muted">인기</button><button role="tab" class="rounded-md px-3 py-1 text-fg-muted">주간 TOP</button>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="rounded bg-brand-soft px-1.5 py-0.5 text-[11px] font-semibold text-brand">공지</span>
+            <span class="text-[11px] font-semibold text-brand">NEW</span>
+            <span class="rounded border border-border px-1.5 py-0.5 text-[11px] text-fg-secondary">정보공유</span>
+            <span class="rounded border border-border px-2 py-0.5 text-xs text-fg-secondary">#텃밭</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="grid size-6 place-items-center rounded-full bg-surface-muted text-[11px] font-semibold">식</span>
+            <span class="grid size-7 place-items-center rounded-full bg-surface-muted text-[11px] font-semibold">식</span>
+            <span class="grid size-8 place-items-center rounded-full bg-green-100 text-[11px] font-semibold text-green-800">나</span>
+            <span class="spec">24 · 28 · 32(본인)</span>
+          </div>
+        </div>
+
+        <h3 class="h3">Sidebar Nav <span class="spec ml-1">layout/Sidebar · community/BoardNav</span></h3>
+        <div class="grid gap-5 rounded-lg border border-border p-5 sm:grid-cols-2">
+          <div class="w-56 space-y-0.5 rounded-lg bg-surface-subtle p-2">
+            <a class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-fg-secondary">기본</a>
+            <a class="flex items-center gap-2.5 rounded-md bg-surface-muted px-2.5 py-1.5 text-fg-secondary">hover</a>
+            <a aria-current="page" class="flex items-center gap-2.5 rounded-md bg-surface px-2.5 py-1.5 font-medium shadow-sm ring-1 ring-border"><span class="size-2 rounded-full bg-cat-free"></span>자유게시판<span class="ml-auto text-xs tabular-nums text-fg-muted">642</span></a>
+          </div>
+          <ul class="spec space-y-1 leading-5"><li>item · rounded-md px-2.5 py-1.5 gap-2.5</li><li>default · text-fg-secondary</li><li>hover · bg-surface-muted</li><li>active · bg-surface shadow-sm ring-1 font-medium</li><li>count · ml-auto text-xs fg-muted tabular-nums</li></ul>
+        </div>
+
+        <h3 class="h3">PostListItem · NoticeRow · Pagination <span class="spec ml-1">post/*</span></h3>
+        <div class="rounded-lg border border-border">
+          <div class="flex items-center gap-2 border-b border-border bg-surface-subtle px-4 py-2.5 text-[13px]"><span class="shrink-0 rounded bg-brand-soft px-1.5 py-0.5 text-[11px] font-semibold text-brand">공지</span><span class="truncate font-medium">[필독] 그린 커뮤니티 이용 규칙 안내 (2026.09 개정)</span></div>
+          <ul class="divide-y divide-border-subtle">
+            <li class="flex items-center gap-4 px-4 py-3"><div class="min-w-0 flex-1"><div class="flex items-center gap-2"><span class="size-1.5 shrink-0 rounded-full bg-cat-info"></span><h4 class="truncate font-medium">베란다 텃밭 6개월 차, 방울토마토 수확량 정리해봤어요</h4><span class="shrink-0 text-[11px] font-semibold text-brand">NEW</span></div><p class="mt-1 pl-3.5 text-xs text-fg-muted">정보공유 · 초록손 · 10분 전</p></div>
+              <div class="hidden shrink-0 gap-4 text-xs tabular-nums text-fg-muted sm:flex"><span class="w-10 text-right">▲ 42</span><span class="w-10 text-right">💬 18</span><span class="w-14 text-right">214</span></div></li>
+            <li class="flex items-center gap-4 bg-surface-subtle px-4 py-3"><div class="min-w-0 flex-1"><div class="flex items-center gap-2"><span class="size-1.5 shrink-0 rounded-full bg-cat-qna"></span><h4 class="truncate font-medium">몬스테라 잎 끝이 갈색으로 변하는데 과습일까요? <span class="spec">(hover)</span></h4></div><p class="mt-1 pl-3.5 text-xs text-fg-muted">질문답변 · 식집사3년 · 32분 전</p></div>
+              <div class="hidden shrink-0 gap-4 text-xs tabular-nums text-fg-muted sm:flex"><span class="w-10 text-right">▲ 3</span><span class="w-10 text-right">💬 7</span><span class="w-14 text-right">98</span></div></li>
+          </ul>
+        </div>
+        <div class="mt-3 flex items-center justify-between text-[13px] text-fg-muted"><span class="tabular-nums">1–10 / 1,284</span><div class="flex gap-1"><button class="btn h-7 border border-border px-2.5 opacity-50">이전</button><button class="btn h-7 border border-border px-2.5 text-fg">다음</button></div></div>
+
+        <h3 class="h3">Comment <span class="spec ml-1">post/CommentItem · 대댓글 1단계</span></h3>
+        <div class="rounded-lg border border-border p-5">
+          <div class="flex gap-3"><span class="grid size-7 shrink-0 place-items-center rounded-full bg-surface-muted text-[11px] font-semibold">식</span><div><p class="text-[13px]"><b class="font-medium">식집사3년</b> <span class="text-xs text-fg-muted">5분 전</span></p><p class="mt-1 text-fg-body">정리 너무 잘하셨네요! 비료는 어떤 제품 쓰셨는지 궁금해요.</p><div class="mt-1.5 flex gap-3 text-xs text-fg-muted"><button>▲ 4</button><button>답글</button></div></div></div>
+          <div class="ml-10 mt-4 flex gap-3"><span class="grid size-7 shrink-0 place-items-center rounded-full bg-green-100 text-[11px] font-semibold text-green-800">초</span><div><p class="text-[13px]"><b class="font-medium">초록손</b> <span class="text-xs text-fg-muted">2분 전</span></p><p class="mt-1 text-fg-body">액비는 희석해서 2주에 한 번 줬어요.</p></div></div>
+        </div>
+
+        <h3 class="h3">Empty · Error · Loading <span class="spec ml-1">common/EmptyState · Skeleton</span></h3>
+        <div class="grid gap-3 sm:grid-cols-3">
+          <div class="grid place-items-center rounded-lg border border-border px-4 py-8 text-center"><div><p class="text-2xl text-fg-subtle">✎</p><p class="mt-2 font-medium">아직 글이 없어요</p><p class="mt-0.5 text-[13px] text-fg-muted">첫 글을 남겨보세요</p><button class="btn mt-4 h-7 bg-primary px-2.5 text-[13px] text-white">새 글 작성</button></div></div>
+          <div class="grid place-items-center rounded-lg border border-border px-4 py-8 text-center"><div><p class="text-2xl text-fg-subtle">⚠</p><p class="mt-2 font-medium">불러오지 못했어요</p><p class="mt-0.5 text-[13px] text-fg-muted">잠시 후 다시 시도해주세요</p><button class="btn mt-4 h-7 border border-border px-2.5 text-[13px]">다시 시도</button></div></div>
+          <div class="space-y-4 rounded-lg border border-border p-4"><div class="animate-pulse space-y-2"><div class="h-3.5 w-3/5 rounded bg-surface-muted"></div><div class="h-3 w-1/3 rounded bg-surface-muted"></div></div><div class="animate-pulse space-y-2"><div class="h-3.5 w-4/5 rounded bg-surface-muted"></div><div class="h-3 w-1/4 rounded bg-surface-muted"></div></div><div class="animate-pulse space-y-2"><div class="h-3.5 w-1/2 rounded bg-surface-muted"></div><div class="h-3 w-1/3 rounded bg-surface-muted"></div></div></div>
+        </div>
+      </section>
+
+      <!-- Writing -->
+      <section id="writing" class="sec">
+        <h2 class="h2">UX 라이팅</h2>
+        <p class="lead">해요체 · 짧게 · 버튼은 2~5자 동사형</p>
+        <div class="mt-6 grid gap-3 sm:grid-cols-2">
+          <div class="rounded-lg border border-border p-4 text-[13px]"><p class="font-semibold text-brand">✓ Do</p><ul class="mt-2 space-y-1 text-fg-body"><li>게시하기 · 임시저장 · 다시 시도</li><li>제목을 입력해주세요.</li><li>불러오지 못했어요</li></ul></div>
+          <div class="rounded-lg border border-border p-4 text-[13px]"><p class="font-semibold text-red-600">✕ Don't</p><ul class="mt-2 space-y-1 text-fg-body"><li>확인 (모달 외) · 글 등록하기 버튼</li><li>제목은 필수 입력 항목입니다.</li><li>ERROR 500: 서버 오류가 발생하였습니다</li></ul></div>
+        </div>
+        <div class="mt-4 overflow-x-auto"><table class="w-full text-[13px]"><thead class="text-left text-fg-muted"><tr class="border-b border-border"><th class="py-2 font-medium">경과</th><th class="font-medium">표기</th></tr></thead><tbody class="divide-y divide-border-subtle text-fg-body">
+          <tr><td class="py-2">1분 미만</td><td>방금</td></tr><tr><td class="py-2">1시간 미만</td><td>N분 전</td></tr><tr><td class="py-2">24시간 미만</td><td>N시간 전</td></tr><tr><td class="py-2">어제</td><td>어제</td></tr><tr><td class="py-2">올해</td><td>09.28</td></tr><tr><td class="py-2">그 이전</td><td>2025.12.01</td></tr></tbody></table></div>
+      </section>
+
+      <!-- A11y -->
+      <section id="a11y" class="sec">
+        <h2 class="h2">접근성 체크리스트</h2>
+        <ul class="mt-6 grid gap-2 sm:grid-cols-2 text-[13px] text-fg-body">
+          <li class="rounded-md border border-border px-3 py-2">☐ 텍스트 대비 4.5:1 이상</li>
+          <li class="rounded-md border border-border px-3 py-2">☐ 모든 인터랙티브 요소 focus-visible</li>
+          <li class="rounded-md border border-border px-3 py-2">☐ 아이콘 전용 버튼 aria-label</li>
+          <li class="rounded-md border border-border px-3 py-2">☐ 색만으로 의미 전달 금지</li>
+          <li class="rounded-md border border-border px-3 py-2">☐ 클릭 영역 32px (모바일 44px)</li>
+          <li class="rounded-md border border-border px-3 py-2">☐ tablist / aria-current="page"</li>
+        </ul>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script>
+const toc = [['principles','원칙'],['color','컬러'],['type','타이포그래피'],['space','스페이싱 · 형태'],['layout','레이아웃'],['components','컴포넌트'],['writing','UX 라이팅'],['a11y','접근성']];
+document.getElementById('toc').innerHTML = toc.map(([id,n])=>`<a href="#${id}" class="block rounded-md px-2.5 py-1.5 hover:bg-surface-muted">${n}</a>`).join('');
+
+function lum(h){const c=[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)/255).map(x=>x<=0.03928?x/12.92:((x+0.055)/1.055)**2.4);return .2126*c[0]+.7152*c[1]+.0722*c[2];}
+const cr = h => ((1.05)/(lum(h)+0.05)).toFixed(2);
+const sw = (name,hex,tw,note,text) => {
+  const r = cr(hex); const ok = r>=4.5;
+  return `<div class="overflow-hidden rounded-lg border border-border"><div class="h-14" style="background:${hex}"></div>
+  <div class="p-3"><p class="text-[13px] font-medium">${name}</p><p class="spec">${hex} · ${tw}</p>
+  ${text?`<p class="mt-1 text-[11px] font-semibold ${ok?'text-brand':'text-red-600'}">${r}:1 ${ok?'AA ✓':'텍스트 금지'}</p>`:''}${note?`<p class="mt-1 text-[11px] text-fg-muted">${note}</p>`:''}</div></div>`;
+};
+document.getElementById('sw-fg').innerHTML = [
+  ['fg','#18181b','zinc-900','제목'],['fg-body','#3f3f46','zinc-700','본문'],['fg-secondary','#52525c','zinc-600','보조'],['fg-muted','#71717b','zinc-500','메타·캡션'],['fg-subtle','#9f9fa9','zinc-400','아이콘·placeholder']
+].map(a=>sw(...a,true)).join('');
+document.getElementById('sw-sf').innerHTML = [
+  ['surface','#ffffff','white','기본 배경'],['surface-subtle','#fafafa','zinc-50','내비·헤더·hover'],['surface-muted','#f4f4f5','zinc-100','탭 트랙·칩'],['border','#e4e4e7','zinc-200','기본 보더'],['border-subtle','#f4f4f5','zinc-100','행 divider'],['border-strong','#9f9fa9','zinc-400','focus 보더']
+].map(a=>sw(...a,false)).join('');
+document.getElementById('sw-br').innerHTML = [
+  ['primary','#18181b','zinc-900','기본 CTA',true],['primary-hover','#3f3f46','zinc-700','',false],['brand','#008236','green-700','확정 액션·텍스트',true],['brand-hover','#016630','green-800','',false],['brand-soft','#f0fdf4','green-50','틴트 배경',false],['brand-strong','#00c950','green-500','그래픽 전용',true]
+].map(([a,b,c,d,t])=>sw(a,b,c,d,t)).join('');
+document.getElementById('sw-cat').innerHTML = [['전체','cat-all','#9f9fa9'],['자유게시판','cat-free','#00c950'],['질문답변','cat-qna','#00a6f4'],['정보공유','cat-info','#fe9a00'],['후기','cat-review','#8e51ff']]
+  .map(([n,t,h])=>`<div class="flex items-center gap-2"><span class="size-2 rounded-full" style="background:${h}"></span><span class="text-[13px]">${n}</span><span class="spec">${t}</span></div>`).join('');
+
+document.getElementById('typo').innerHTML = [
+  ['title-lg','text-2xl font-semibold tracking-tight','24 / 32 · 600','베란다 텃밭 6개월 차, 수확량 정리'],
+  ['title','text-xl font-semibold tracking-tight','20 / 28 · 600','자유게시판'],
+  ['heading','text-base font-semibold','16 / 24 · 600','댓글 18'],
+  ['body-lg','text-[15px] leading-7 text-fg-body','15 / 28 · 400','처음엔 화분 두 개로 시작했는데 지금은 선반 3단까지 늘었습니다.'],
+  ['body','font-medium','14 / 20 · 400·500','몬스테라 잎 끝이 갈색으로 변하는데 과습일까요?'],
+  ['ui','text-[13px] font-medium','13 / 18 · 400·500','새 글 작성 · 최신 · 인기'],
+  ['meta','text-xs text-fg-muted','12 / 16 · 400','질문답변 · 식집사3년 · 32분 전'],
+  ['label','text-[11px] font-semibold','11 / 16 · 600','공지 · NEW'],
+].map(([n,c,s,t])=>`<div class="grid items-baseline gap-2 px-5 py-4 sm:grid-cols-[120px_140px_1fr]"><p class="text-[13px] font-medium">${n}</p><p class="spec">${s}</p><p class="${c} truncate">${t}</p></div>`).join('');
+
+document.getElementById('spacing').innerHTML = [1,1.5,2,2.5,3,4,5,6,8,10].map(n=>`<div class="text-center"><div class="bg-brand/20 ring-1 ring-brand/40" style="width:${n*4}px;height:${n*4}px"></div><p class="spec mt-1.5">${n*4}</p></div>`).join('');
+</script>
+</body>
+</html>

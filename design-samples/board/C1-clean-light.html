@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>C1 · 클린 라이트</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style type="text/tailwindcss">@theme { --font-sans: "Pretendard Variable", Pretendard, system-ui, sans-serif; }</style>
+<script src="_data.js"></script>
+</head>
+<body class="bg-white font-sans text-[14px] text-zinc-800 antialiased">
+<div class="flex min-h-screen">
+
+  <!-- Left nav : full-height app shell -->
+  <aside class="sticky top-0 hidden h-screen w-60 shrink-0 flex-col border-r border-zinc-200 bg-zinc-50/70 lg:flex">
+    <a onclick="show('list')" class="flex h-14 cursor-pointer items-center gap-2 px-5 font-semibold text-zinc-900">
+      <span class="grid size-6 place-items-center rounded-md bg-green-700 text-xs font-bold text-white">G</span>Green Community
+    </a>
+    <div class="px-3">
+      <button class="flex w-full items-center gap-2 rounded-md border border-zinc-200 bg-white px-2.5 py-1.5 text-zinc-500 shadow-xs">
+        <svg class="size-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>검색<kbd class="ml-auto rounded border border-zinc-200 px-1 text-[11px]">⌘K</kbd>
+      </button>
+    </div>
+    <nav class="mt-5 flex-1 space-y-5 overflow-y-auto px-3">
+      <div class="space-y-0.5">
+        <a class="flex items-center gap-2.5 rounded-md bg-zinc-200/60 px-2.5 py-1.5 font-medium text-zinc-900">◎ 홈 피드</a>
+        <a class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 hover:bg-zinc-100">↗ 인기글</a>
+        <a class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 hover:bg-zinc-100">☆ 북마크</a>
+        <a class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-zinc-600 hover:bg-zinc-100">◷ 내 활동</a>
+      </div>
+      <div>
+        <p class="mb-1 px-2.5 text-xs font-medium text-zinc-500">게시판</p>
+        <div id="boards" class="space-y-0.5"></div>
+      </div>
+    </nav>
+    <div class="flex items-center gap-2 border-t border-zinc-200 px-4 py-3">
+      <span class="grid size-7 place-items-center rounded-full bg-green-100 text-xs font-semibold text-green-700">나</span>
+      <div class="text-xs"><p class="font-medium text-zinc-900">초록손</p><p class="text-zinc-500">Lv.3 새싹</p></div>
+      <button class="ml-auto text-zinc-500">⚙</button>
+    </div>
+  </aside>
+
+  <div class="min-w-0 flex-1">
+    <!-- Top bar -->
+    <header class="sticky top-0 z-10 flex h-14 items-center gap-3 border-b border-zinc-200 bg-white/90 px-6 backdrop-blur">
+      <p id="crumb" class="text-zinc-500">게시판 <span class="mx-1 text-zinc-300">/</span> <b class="font-medium text-zinc-900">자유게시판</b></p>
+      <div class="ml-auto flex items-center gap-2">
+        <button class="grid size-8 place-items-center rounded-md text-zinc-500 hover:bg-zinc-100">🔔</button>
+        <button onclick="show('write')" class="rounded-md bg-zinc-900 px-3 py-1.5 text-[13px] font-medium text-white hover:bg-zinc-700">새 글 작성</button>
+      </div>
+    </header>
+
+    <div class="mx-auto grid max-w-6xl gap-10 px-6 py-8 xl:grid-cols-[1fr_260px]">
+      <main class="min-w-0">
+        <!-- ================= LIST ================= -->
+        <section id="view-list">
+          <h1 class="text-xl font-semibold tracking-tight text-zinc-900">자유게시판</h1>
+          <p class="mt-1 text-zinc-500">초록빛 일상을 자유롭게 나누는 공간</p>
+
+          <div class="mt-6 flex items-center justify-between">
+            <div class="inline-flex rounded-lg bg-zinc-100 p-0.5 text-[13px]">
+              <button class="rounded-md bg-white px-3 py-1 font-medium shadow-sm">최신</button>
+              <button class="rounded-md px-3 py-1 text-zinc-500">인기</button>
+              <button class="rounded-md px-3 py-1 text-zinc-500">주간 TOP</button>
+              <button class="rounded-md px-3 py-1 text-zinc-500">답변 대기</button>
+            </div>
+            <button class="text-[13px] text-zinc-500">⚲ 필터</button>
+          </div>
+
+          <div class="mt-4 rounded-lg border border-zinc-200">
+            <div class="flex items-center gap-2 border-b border-zinc-200 bg-zinc-50 px-4 py-2.5 text-[13px]">
+              <span class="shrink-0 rounded bg-green-50 px-1.5 py-0.5 text-[11px] font-semibold text-green-700">공지</span>
+              <span class="truncate font-medium">[필독] 그린 커뮤니티 이용 규칙 안내 (2026.09 개정)</span>
+            </div>
+            <ul id="rows" class="divide-y divide-zinc-100"></ul>
+          </div>
+          <div class="mt-4 flex items-center justify-between text-[13px] text-zinc-500">
+            <span>1–10 / 1,284</span>
+            <div class="flex gap-1"><button class="rounded-md border border-zinc-200 px-2.5 py-1">이전</button><button class="rounded-md border border-zinc-200 px-2.5 py-1 text-zinc-900">다음</button></div>
+          </div>
+        </section>
+
+        <!-- ================= DETAIL ================= -->
+        <section id="view-detail" class="hidden">
+          <button onclick="show('list')" class="text-[13px] text-zinc-500 hover:text-zinc-900">← 자유게시판</button>
+          <h1 class="mt-4 text-2xl font-semibold leading-snug tracking-tight text-zinc-900">베란다 텃밭 6개월 차, 방울토마토 수확량 정리해봤어요</h1>
+          <div class="mt-4 flex items-center gap-2 text-[13px] text-zinc-500">
+            <span class="grid size-6 place-items-center rounded-full bg-green-100 text-[11px] font-semibold text-green-700">초</span>
+            <b class="font-medium text-zinc-900">초록손</b><span>·</span><span>10분 전</span><span>·</span><span>조회 214</span>
+            <span class="ml-2 rounded border border-zinc-200 px-1.5 py-0.5 text-[11px]">정보공유</span>
+            <button class="ml-auto">⋯</button>
+          </div>
+          <div class="mt-8 space-y-5 text-[15px] leading-7 text-zinc-700">
+            <p>처음엔 화분 두 개로 시작했는데 지금은 선반 3단까지 늘었습니다. 월별 수확량과 비료 주기를 정리해봤어요.</p>
+            <div class="aspect-[16/9] rounded-lg border border-zinc-200 bg-[repeating-linear-gradient(45deg,#f4f4f5_0_10px,#fafafa_10px_20px)]"></div>
+            <p>가장 효과가 컸던 건 순 따기와 지지대 보강이었고, 8월 폭염 때는 차광막이 필수였습니다.</p>
+          </div>
+          <div class="mt-8 flex gap-2 text-[13px]">
+            <button class="flex items-center gap-1.5 rounded-md border border-green-700/30 bg-green-50 px-3 py-1.5 font-medium text-green-700">▲ 추천 42</button>
+            <button class="rounded-md border border-zinc-200 px-3 py-1.5 text-zinc-600">☆ 저장</button>
+            <button class="rounded-md border border-zinc-200 px-3 py-1.5 text-zinc-600">링크 복사</button>
+          </div>
+          <section class="mt-10 border-t border-zinc-200 pt-6">
+            <h2 class="font-semibold text-zinc-900">댓글 18</h2>
+            <div class="mt-4 rounded-lg border border-zinc-200 focus-within:border-zinc-400">
+              <textarea rows="2" class="w-full resize-none rounded-lg p-3 outline-none" placeholder="댓글 작성…"></textarea>
+              <div class="flex justify-end p-2"><button class="rounded-md bg-zinc-900 px-3 py-1 text-[13px] font-medium text-white">등록</button></div>
+            </div>
+            <ul id="comments" class="mt-6 space-y-6"></ul>
+          </section>
+        </section>
+
+        <!-- ================= WRITE ================= -->
+        <section id="view-write" class="hidden">
+          <h1 class="text-xl font-semibold tracking-tight">새 글 작성</h1>
+          <form class="mt-6 space-y-5" onsubmit="return false">
+            <label class="block"><span class="text-[13px] font-medium text-zinc-700">게시판</span>
+              <select class="mt-1.5 w-full rounded-md border border-zinc-200 px-3 py-2 sm:w-64"><option>자유게시판</option><option>질문답변</option><option>정보공유</option><option>후기</option></select></label>
+            <label class="block"><span class="text-[13px] font-medium text-zinc-700">제목</span>
+              <input class="mt-1.5 w-full rounded-md border border-zinc-200 px-3 py-2 outline-none focus:border-zinc-400 focus:ring-4 focus:ring-zinc-100" placeholder="제목을 입력하세요" /></label>
+            <div>
+              <div class="flex items-center justify-between"><span class="text-[13px] font-medium text-zinc-700">본문</span>
+                <div class="inline-flex rounded-md bg-zinc-100 p-0.5 text-xs"><button class="rounded bg-white px-2 py-0.5 shadow-sm">작성</button><button class="px-2 py-0.5 text-zinc-500">미리보기</button></div></div>
+              <textarea rows="12" class="mt-1.5 w-full rounded-md border border-zinc-200 p-3 leading-6 outline-none focus:border-zinc-400" placeholder="마크다운을 지원합니다."></textarea>
+              <p class="mt-1 text-xs text-zinc-500">이미지는 끌어다 놓거나 붙여넣을 수 있어요.</p>
+            </div>
+            <label class="block"><span class="text-[13px] font-medium text-zinc-700">태그</span>
+              <div class="mt-1.5 flex flex-wrap items-center gap-1.5 rounded-md border border-zinc-200 px-2 py-1.5">
+                <span class="rounded bg-zinc-100 px-2 py-0.5 text-xs">텃밭 ✕</span><span class="rounded bg-zinc-100 px-2 py-0.5 text-xs">베란다 ✕</span>
+                <input class="min-w-24 flex-1 py-0.5 outline-none" placeholder="태그 추가" /></div></label>
+            <div class="flex justify-end gap-2 border-t border-zinc-200 pt-5">
+              <button onclick="show('list')" class="rounded-md px-3 py-1.5 text-zinc-600 hover:bg-zinc-100">취소</button>
+              <button class="rounded-md border border-zinc-200 px-3 py-1.5">임시저장</button>
+              <button class="rounded-md bg-green-700 px-4 py-1.5 font-medium text-white hover:bg-green-800">게시하기</button>
+            </div>
+          </form>
+        </section>
+      </main>
+
+      <!-- Right sidebar : flat, divider style -->
+      <aside class="hidden space-y-8 xl:block">
+        <section>
+          <p class="text-xs font-medium text-zinc-500">게시판 정보</p>
+          <p class="mt-2 leading-6 text-zinc-600">초록빛 일상을 자유롭게 나누는 공간입니다.</p>
+          <dl class="mt-3 grid grid-cols-2 gap-2 text-[13px]">
+            <div class="rounded-md border border-zinc-200 p-2.5"><dt class="text-zinc-500">멤버</dt><dd class="font-semibold text-zinc-900">12,480</dd></div>
+            <div class="rounded-md border border-zinc-200 p-2.5"><dt class="text-zinc-500">접속 중</dt><dd class="font-semibold text-green-700">● 312</dd></div>
+          </dl>
+        </section>
+        <section>
+          <p class="text-xs font-medium text-zinc-500">인기글</p>
+          <ol id="popular" class="mt-2 space-y-2.5"></ol>
+        </section>
+        <section>
+          <p class="text-xs font-medium text-zinc-500">인기 태그</p>
+          <div class="mt-2 flex flex-wrap gap-1.5 text-xs text-zinc-600"><span class="rounded border border-zinc-200 px-2 py-0.5">#텃밭</span><span class="rounded border border-zinc-200 px-2 py-0.5">#분리수거</span><span class="rounded border border-zinc-200 px-2 py-0.5">#제로웨이스트</span><span class="rounded border border-zinc-200 px-2 py-0.5">#자전거</span><span class="rounded border border-zinc-200 px-2 py-0.5">#플리마켓</span></div>
+        </section>
+        <section>
+          <p class="text-xs font-medium text-zinc-500">규칙</p>
+          <ol class="mt-2 list-decimal space-y-1 pl-4 text-[13px] text-zinc-600"><li>서로 존중해주세요</li><li>광고·홍보 금지</li><li>개인정보 노출 금지</li></ol>
+        </section>
+      </aside>
+    </div>
+  </div>
+</div>
+
+<script>
+const B = window.BOARD;
+function show(v){ ['list','detail','write'].forEach(n=>document.getElementById('view-'+n).classList.toggle('hidden', n!==v)); scrollTo(0,0); }
+const dot = {all:'bg-zinc-400',free:'bg-green-500',qna:'bg-sky-500',info:'bg-amber-500',review:'bg-violet-500'};
+document.getElementById('boards').innerHTML = B.categories.map((c,i)=>`<a class="flex items-center gap-2.5 rounded-md px-2.5 py-1.5 ${i===1?'bg-white font-medium text-zinc-900 shadow-sm ring-1 ring-zinc-200':'text-zinc-600 hover:bg-zinc-100'}"><span class="size-2 rounded-full ${dot[c.id]}"></span>${c.name}<span class="ml-auto text-xs text-zinc-500">${c.count}</span></a>`).join('');
+document.getElementById('popular').innerHTML = B.popular.map((t,i)=>`<li class="flex gap-2.5 text-[13px]"><span class="w-3 text-zinc-500">${i+1}</span><a class="line-clamp-1 text-zinc-700 hover:text-zinc-900 hover:underline">${t}</a></li>`).join('');
+document.getElementById('rows').innerHTML = B.posts.map(p=>`
+  <li onclick="show('detail')" class="group flex cursor-pointer items-center gap-4 px-4 py-3 hover:bg-zinc-50">
+    <div class="min-w-0 flex-1">
+      <div class="flex items-center gap-2"><span class="size-1.5 shrink-0 rounded-full ${dot[p.cat]}"></span>
+        <h3 class="truncate font-medium text-zinc-900">${p.title}</h3>${p.isNew?'<span class="shrink-0 text-[11px] font-semibold text-green-700">NEW</span>':''}</div>
+      <p class="mt-1 pl-3.5 text-[12px] text-zinc-500">${catName(p.cat)} · ${p.author} · ${p.date}</p>
+    </div>
+    <div class="hidden shrink-0 items-center gap-4 text-[12px] text-zinc-500 sm:flex">
+      <span class="w-10 text-right">▲ ${p.likes}</span><span class="w-10 text-right">💬 ${p.comments}</span><span class="w-14 text-right">${p.views.toLocaleString()}</span>
+    </div>
+  </li>`).join('');
+const cm = c => `<div class="flex gap-3"><span class="grid size-7 shrink-0 place-items-center rounded-full bg-zinc-100 text-[11px] font-semibold">${c.avatar}</span>
+  <div class="min-w-0 flex-1"><p class="text-[13px]"><b class="font-medium text-zinc-900">${c.author}</b> <span class="text-zinc-500">${c.date}</span></p><p class="mt-1 text-zinc-700">${c.body}</p>
+  <div class="mt-1.5 flex gap-3 text-xs text-zinc-500"><button>▲ ${c.likes}</button><button>답글</button></div></div></div>`;
+document.getElementById('comments').innerHTML = B.comments.map(c=>`<li>${cm(c)}${c.replies.map(r=>`<div class="ml-10 mt-4">${cm(r)}</div>`).join('')}</li>`).join('');
+</script>
+</body>
+</html>
