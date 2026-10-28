@@ -1,13 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/common/Button";
 
 export function RequireAuth({ children }: { children: React.ReactNode }) {
   const { user, loading, error, reload } = useAuth();
   const pathname = usePathname();
+  const router = useRouter();
+  useEffect(() => {
+    if (!loading && !error && !user) {
+      const next = pathname + window.location.search;
+      router.replace(`/login?next=${encodeURIComponent(next)}`);
+    }
+  }, [loading, error, user, pathname, router]);
   if (loading)
     return (
       <p role="status" className="p-8 text-fg-muted">

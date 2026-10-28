@@ -52,6 +52,13 @@ export async function forwardBackend(request: NextRequest, segments: string[]) {
 
   const headers = new Headers();
   const accessToken = request.cookies.get(ACCESS_COOKIE)?.value;
+  const publicPaths = ["auth/signup", "auth/login", "auth/refresh", "auth/logout"];
+  if (!accessToken && !publicPaths.includes(path)) {
+    return NextResponse.json(
+      { message: "로그인이 필요합니다." },
+      { status: 401, headers: { "Cache-Control": "no-store" } },
+    );
+  }
   if (accessToken) headers.set("Authorization", `Bearer ${accessToken}`);
   if (path.startsWith("auth/")) {
     const refreshToken = request.cookies.get("refresh_token")?.value;
@@ -87,6 +94,13 @@ export async function forwardBackend(request: NextRequest, segments: string[]) {
       redirect: "manual",
       signal: AbortSignal.timeout(30_000),
     });
+    // Backend redirects must never cause the browser to call the backend itself.
+    if (upstream.status >= 300 && upstream.status < 400) {
+      return NextResponse.json(
+        { message: "서버 API 경로 설정을 확인해주세요." },
+        { status: 502, headers: { "Cache-Control": "no-store" } },
+      );
+    }
     let response: NextResponse;
     if (upstream.ok && (path === "auth/login" || path === "auth/refresh")) {
       const tokens: { access_token: string; expires_in: number } =

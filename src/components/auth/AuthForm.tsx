@@ -16,10 +16,11 @@ export function AuthForm({
   signup?: boolean;
   next?: string;
 }) {
-  const { login } = useAuth();
+  const { login, loading } = useAuth();
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [nickname, setNickname] = useState("");
   const [pending, setPending] = useState(false);
   const [error, setError] = useState("");
@@ -30,16 +31,21 @@ export function AuthForm({
       : "/community/all";
   async function submit(event: React.FormEvent) {
     event.preventDefault();
+    if (pending || loading) return;
     setPending(true);
     setError("");
     try {
       if (new TextEncoder().encode(password).length > 72)
         throw new Error("비밀번호는 UTF-8 기준 72바이트 이내로 입력해주세요.");
       if (signup && !registered) {
-        await authApi.signup(email, password, nickname.trim());
+        if (nickname.trim().length < 2)
+          throw new Error("닉네임은 공백을 제외하고 2자 이상 입력해주세요.");
+        if (password !== passwordConfirmation)
+          throw new Error("비밀번호가 일치하지 않습니다.");
+        await authApi.signup(email.trim(), password, nickname.trim());
         setRegistered(true);
       }
-      await login(email, password);
+      await login(email.trim(), password);
       router.replace(destination);
     } catch (error) {
       setError(errorMessage(error));
@@ -71,7 +77,7 @@ export function AuthForm({
               required
               value={nickname}
               onChange={(e) => setNickname(e.target.value)}
-              disabled={registered}
+              disabled={pending || registered}
             />
           </div>
         )}
@@ -85,7 +91,7 @@ export function AuthForm({
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            disabled={registered}
+            disabled={pending || registered}
           />
         </div>
         <div>
@@ -98,11 +104,29 @@ export function AuthForm({
             minLength={8}
             maxLength={72}
             required
+            disabled={pending}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <p className="mt-1 text-xs text-fg-muted">8자 이상 입력해주세요.</p>
+          <p className="mt-1 text-xs text-fg-muted">
+            8자 이상, UTF-8 기준 72바이트 이내로 입력해주세요.
+          </p>
         </div>
+        {signup && !registered && (
+          <div>
+            <FieldLabel htmlFor="password-confirmation">비밀번호 확인</FieldLabel>
+            <Input
+              id="password-confirmation"
+              className="mt-1.5"
+              type="password"
+              autoComplete="new-password"
+              required
+              disabled={pending}
+              value={passwordConfirmation}
+              onChange={(e) => setPasswordConfirmation(e.target.value)}
+            />
+          </div>
+        )}
         {registered && (
           <p role="status" className="text-sm text-brand">
             가입이 완료됐어요. 로그인하여 계속해주세요.
@@ -119,6 +143,7 @@ export function AuthForm({
           size="lg"
           className="w-full"
           loading={pending}
+          disabled={loading}
         >
           {signup && !registered ? "가입하고 시작하기" : "로그인"}
         </Button>

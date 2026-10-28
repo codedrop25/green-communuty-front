@@ -1,4 +1,4 @@
-import { apiRequest, jsonBody } from "./client";
+import { apiRequest, jsonBody, withSessionLock } from "./client";
 
 export type User = {
   user_id: number;
@@ -12,7 +12,9 @@ export type User = {
 export const authApi = {
   me: () => apiRequest<User>("/users/me"),
   login: (email: string, password: string) =>
-    apiRequest("/auth/login", jsonBody("POST", { email, password })),
+    withSessionLock(() =>
+      apiRequest("/auth/login", jsonBody("POST", { email, password })),
+    ),
   signup: (email: string, password: string, nickname: string) =>
     apiRequest<User>(
       "/auth/signup",
@@ -22,7 +24,8 @@ export const authApi = {
         user_nickname: nickname,
       }),
     ),
-  logout: () => apiRequest("/auth/logout", { method: "POST" }),
+  logout: () =>
+    withSessionLock(() => apiRequest("/auth/logout", { method: "POST" })),
   update: (nickname: string) =>
     apiRequest<User>(
       "/users/me",

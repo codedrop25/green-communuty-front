@@ -8,6 +8,19 @@ export class ApiError extends Error {
 }
 
 let refreshing: Promise<boolean> | null = null;
+let sessionQueue: Promise<unknown> = Promise.resolve();
+
+// Serialize cookie changes, including login/logout racing with a token refresh.
+export function withSessionLock<T>(action: () => Promise<T>): Promise<T> {
+  const run = async (): Promise<T> => {
+    if (typeof navigator !== "undefined" && navigator.locks)
+      return await navigator.locks.request("green-session-refresh", action);
+    return action();
+  };
+  const result = sessionQueue.then(run, run);
+  sessionQueue = result.catch(() => undefined);
+  return result;
+}
 
 async function refreshSession() {
   if (!refreshing) {
@@ -15,18 +28,22 @@ async function refreshSession() {
       // A different tab may already have refreshed the shared HttpOnly cookie.
       const probe = await fetch("/api/backend/users/me", { cache: "no-store" });
       if (probe.ok) return true;
-      if (probe.status !== 401) return false;
+      if (probe.status !== 401)
+        throw new ApiError(
+          "로그인 상태를 확인하지 못했습니다. 다시 시도해주세요.",
+          probe.status,
+        );
       const response = await fetch("/api/backend/auth/refresh", {
         method: "POST",
       });
-      return response.ok;
+      if (response.ok) return true;
+      if (response.status === 401) return false;
+      throw new ApiError(
+        "로그인 상태를 갱신하지 못했습니다. 다시 시도해주세요.",
+        response.status,
+      );
     };
-    refreshing = (async () => {
-      if (typeof navigator !== "undefined" && navigator.locks) {
-        return await navigator.locks.request("green-session-refresh", refresh);
-      }
-      return refresh();
-    })().finally(() => {
+    refreshing = withSessionLock(refresh).finally(() => {
       refreshing = null;
     });
   }
@@ -53,6 +70,7 @@ export async function apiRequest<T>(
     )
       response = await send();
   } catch (error) {
+    if (error instanceof ApiError) throw error;
     if (error instanceof Error && error.name === "AbortError") throw error;
     throw new ApiError("네트워크 연결을 확인하고 다시 시도해주세요.", 0);
   }
