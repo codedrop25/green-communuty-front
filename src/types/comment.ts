@@ -5,6 +5,7 @@ export type Comment = {
   author: Author;
   createdAt: string;
   body: string;
-  likeCount: number;
+  likeCount?: number;
+  replyCount?: number;
   replies: Comment[];
 };

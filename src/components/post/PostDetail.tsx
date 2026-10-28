@@ -1,46 +1,143 @@
+"use client";
+
 import Link from "next/link";
-import { ArrowLeft, MoreHorizontal } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { ArrowLeft } from "lucide-react";
 import { Avatar } from "@/components/common/Avatar";
-import { CategoryBadge } from "@/components/common/Badge";
-import { comments as initialComments, boards } from "@/lib/mock-community";
+import { Button } from "@/components/common/Button";
 import { formatCount, formatRelativeTime } from "@/lib/utils";
+import { useAuth } from "@/contexts/AuthContext";
+import { communityApi } from "@/lib/api/community";
+import { errorMessage } from "@/lib/api/client";
 import type { PostDetailData } from "@/types";
 import { CommentSection } from "./CommentSection";
 import { PostActions } from "./PostActions";
+import { PostEditor } from "./PostEditor";
+import { PostImages } from "./PostImages";
 
-export function PostDetail({ post }: { post: PostDetailData }) {
-  const board = boards.find((item) => item.id === post.boardId) ?? boards[1];
-
+export function PostDetail({
+  post,
+  onRefresh,
+}: {
+  post: PostDetailData;
+  onRefresh: () => void;
+}) {
+  const { user } = useAuth();
+  const router = useRouter();
+  const [editing, setEditing] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [error, setError] = useState("");
+  const isAuthor = String(user?.user_id) === post.author.id;
+  const canEdit = isAuthor || user?.user_role === "ADMIN";
+  async function remove() {
+    setDeleting(true);
+    setError("");
+    try {
+      await communityApi.remove(post.id);
+      router.replace("/community/all");
+    } catch (error) {
+      setError(errorMessage(error));
+      setDeleting(false);
+    }
+  }
   return (
     <article>
-      <Link href={`/community/${post.boardId}`} className="inline-flex min-h-8 items-center gap-1 text-[13px] text-fg-muted transition-colors duration-150 hover:text-fg">
-        <ArrowLeft aria-hidden="true" className="size-4" /> {board.name}
+      <Link
+        href="/community/all"
+        className="inline-flex min-h-8 items-center gap-1 text-[13px] text-fg-muted"
+      >
+        <ArrowLeft className="size-4" />
+        전체 게시글
       </Link>
-      <h1 className="mt-4 text-2xl font-semibold leading-8 tracking-tight text-fg">{post.title}</h1>
+      <h1 className="mt-4 break-words text-2xl font-semibold leading-8 tracking-tight">
+        {post.title}
+      </h1>
       <div className="mt-4 flex flex-wrap items-center gap-2 text-[13px] text-fg-muted">
-        <Avatar nickname={post.author.nickname} size={24} isCurrentUser={post.author.id === "green-thumb"} />
+        <Avatar
+          nickname={post.author.nickname}
+          size={24}
+          isCurrentUser={isAuthor}
+        />
         <strong className="font-medium text-fg">{post.author.nickname}</strong>
-        <span aria-hidden="true">·</span><span>{formatRelativeTime(post.createdAt)}</span>
-        <span aria-hidden="true">·</span><span>조회 {formatCount(post.viewCount)}</span>
-        <CategoryBadge>{board.name}</CategoryBadge>
-        <button type="button" aria-label="게시글 메뉴" className="ml-auto grid size-8 place-items-center rounded-md hover:bg-surface-muted">
-          <MoreHorizontal aria-hidden="true" className="size-5" />
-        </button>
-      </div>
-
-      <div className="mt-8 max-w-prose space-y-5 text-[15px] leading-7 text-fg-body">
-        <p>{post.content[0]}</p>
-        {post.hasImage && (
-          <div role="img" aria-label="베란다 텃밭 예시 이미지 영역" className="aspect-video w-full rounded-lg border border-border bg-[repeating-linear-gradient(45deg,#f4f4f5_0_10px,#fafafa_10px_20px)]" />
+        <span>· {formatRelativeTime(post.createdAt)}</span>
+        {post.viewCount !== undefined && (
+          <span>· 조회 {formatCount(post.viewCount)}</span>
         )}
-        {post.content.slice(1).map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-        <div className="flex flex-wrap gap-1.5 pt-2">
-          {post.tags.map((tag) => <span key={tag} className="rounded border border-border px-2 py-0.5 text-xs text-fg-secondary">#{tag}</span>)}
-        </div>
+        {canEdit && (
+          <div className="ml-auto flex gap-1">
+            <Button
+              type="button"
+              size="sm"
+              variant="ghost"
+              onClick={() => setEditing(!editing)}
+            >
+              수정
+            </Button>
+            <Button
+              type="button"
+              size="sm"
+              variant="danger"
+              onClick={() => setConfirmDelete(true)}
+            >
+              삭제
+            </Button>
+          </div>
+        )}
       </div>
-
-      <PostActions initialLikeCount={post.likeCount} />
-      <CommentSection initialComments={initialComments} totalCount={post.commentCount} />
+      {confirmDelete && (
+        <div role="alert" className="mt-4 rounded-md border border-border p-4">
+          <p className="mb-3 text-sm">이 게시글을 삭제할까요?</p>
+          <div className="flex gap-2">
+            <Button
+              variant="danger"
+              loading={deleting}
+              onClick={() => void remove()}
+            >
+              삭제 확인
+            </Button>
+            <Button
+              variant="ghost"
+              disabled={deleting}
+              onClick={() => setConfirmDelete(false)}
+            >
+              취소
+            </Button>
+          </div>
+        </div>
+      )}
+      {error && (
+        <p role="alert" className="mt-3 text-sm text-danger">
+          {error}
+        </p>
+      )}
+      {editing ? (
+        <PostEditor
+          post={post}
+          onCancel={() => setEditing(false)}
+          onSaved={() => {
+            setEditing(false);
+            onRefresh();
+          }}
+        />
+      ) : (
+        <div className="mt-8 whitespace-pre-wrap break-words text-[15px] leading-7 text-fg-body">
+          {post.content.join("\n\n")}
+        </div>
+      )}
+      <PostImages
+        postId={post.id}
+        hasImages={!!post.hasImage}
+        canUpload={isAuthor}
+        onUploaded={onRefresh}
+      />
+      <PostActions
+        postId={post.id}
+        initialLikeCount={post.likeCount ?? 0}
+        initialLiked={!!post.isLiked}
+      />
+      <CommentSection postId={post.id} />
     </article>
   );
 }
